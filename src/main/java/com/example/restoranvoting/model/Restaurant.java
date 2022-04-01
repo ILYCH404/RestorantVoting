@@ -14,19 +14,19 @@ import java.util.List;
 @ToString(callSuper = true)
 public class Restaurant extends BaseEntity {
 
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     @NotBlank
     private String description;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
-    private List<Meal> menu;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<User> visitors;
 
     @Column(name = "address")
     @NotBlank
     private String address;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", orphanRemoval = true)
+    private List<Meal> menu;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<User> visitors;
 
     public Restaurant(String description, List<Meal> menu, List<User> visitors, String address) {
         this.description = description;
