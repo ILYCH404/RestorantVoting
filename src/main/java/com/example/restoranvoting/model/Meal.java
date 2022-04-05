@@ -1,5 +1,6 @@
 package com.example.restoranvoting.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.validator.constraints.Range;
@@ -39,6 +40,7 @@ public class Meal extends BaseEntity {
 
     @ManyToOne()
     @JoinColumn(name = "restaurant_id")
+    @JsonBackReference
     private Restaurant restaurant;
 
     public Meal(LocalDateTime dateTime, String description, BigDecimal price, int calories) {
