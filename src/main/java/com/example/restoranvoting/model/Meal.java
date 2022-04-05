@@ -7,10 +7,9 @@ import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "meals")
@@ -20,10 +19,9 @@ import java.time.LocalDateTime;
 @ToString(callSuper = true)
 public class Meal extends BaseEntity {
 
-    @Column(name = "date_time", nullable = false, columnDefinition = "timestamp default now()", updatable = false)
-    @NotNull
+    @Column(name = "date_time", columnDefinition = "TIMESTAMP DEFAULT NOW()", updatable = false)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private LocalDateTime dateTime;
+    private Date added = new Date();
 
     @Column(name = "description", nullable = false)
     @NotBlank
@@ -43,13 +41,13 @@ public class Meal extends BaseEntity {
     @JsonBackReference
     private Restaurant restaurant;
 
-    public Meal(LocalDateTime dateTime, String description, BigDecimal price, int calories) {
-        this(null, dateTime, description, price, calories);
+    public Meal(Date added, String description, BigDecimal price, int calories) {
+        this(null, added, description, price, calories);
     }
 
-    public Meal(Integer id, LocalDateTime dateTime, String description, BigDecimal price, int calories) {
+    public Meal(Integer id, Date added, String description, BigDecimal price, int calories) {
         super(id);
-        this.dateTime = dateTime;
+        this.added = added;
         this.description = description;
         this.price = price;
         this.calories = calories;
