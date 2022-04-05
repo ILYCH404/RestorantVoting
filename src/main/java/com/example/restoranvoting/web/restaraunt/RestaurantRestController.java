@@ -19,9 +19,9 @@ import static com.example.restoranvoting.util.validation.ValidationUtil.checkNew
 
 
 @RestController
-@RequestMapping(value = RestaurantsRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = RestaurantRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
-public class RestaurantsRestController {
+public class RestaurantRestController {
     static final String REST_URL = "/admin/restaurants";
 
     @Autowired
