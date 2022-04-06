@@ -24,7 +24,7 @@ import static com.example.restoranvoting.util.validation.ValidationUtil.checkNew
 
 
 @RestController
-@RequestMapping(value = RestaurantRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @CacheConfig(cacheNames = "restaurant")
 public class RestaurantRestController {
@@ -33,20 +33,20 @@ public class RestaurantRestController {
     @Autowired
     protected RestaurantRepository repository;
 
-    @GetMapping
+    @GetMapping("/profile/restaurants")
     @Cacheable
     public List<Restaurant> getAll() {
         log.info("getAll");
         return repository.findAll(Sort.by(Sort.Direction.ASC, "description"));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/admin/restaurants/{id}")
     public ResponseEntity<Restaurant> get(@PathVariable int id) {
         log.info("get {}", id);
         return ResponseEntity.of(Objects.requireNonNull(repository.findById(id)));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/admin/restaurants/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(value = "restaurant", allEntries = true)
     public void delete(@PathVariable int id) {
@@ -54,7 +54,7 @@ public class RestaurantRestController {
         repository.delete(id);
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/admin/restaurants",consumes = MediaType.APPLICATION_JSON_VALUE)
     @CacheEvict(allEntries = true)
     public ResponseEntity<Restaurant> createWithLocation(@Valid @RequestBody Restaurant restaurant) {
         log.info("create {}", restaurant);
@@ -66,7 +66,7 @@ public class RestaurantRestController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/admin/restaurants/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(allEntries = true)
     public void update(@Valid @RequestBody Restaurant restaurant,@PathVariable int id) {
@@ -75,7 +75,7 @@ public class RestaurantRestController {
         repository.save(restaurant);
     }
 
-    @GetMapping("/by-description")
+    @GetMapping("/admin/restaurants/by-description")
     public ResponseEntity<Restaurant> getByDescription(@RequestParam String description) {
         log.info("getByDescription {}", description);
         return ResponseEntity.of(repository.findByDescription(description));

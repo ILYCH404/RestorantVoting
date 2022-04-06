@@ -28,7 +28,7 @@ import static com.example.restoranvoting.util.validation.ValidationUtil.checkNew
 @CacheConfig(cacheNames = "meals")
 public class MealRestController {
 
-    static final String REST_URL = "/restaurant/meals";
+    static final String REST_URL = "/admin/meals";
 
     @Autowired
     protected MealRepository repository;
