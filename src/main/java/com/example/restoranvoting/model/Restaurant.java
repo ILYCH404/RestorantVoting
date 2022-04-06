@@ -2,12 +2,16 @@ package com.example.restoranvoting.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "restoraunt")
@@ -28,19 +32,19 @@ public class Restaurant extends BaseEntity {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonManagedReference
-    private List<Meal> meals;
+    private Set<Meal> meals;
 
     @OneToMany(fetch = FetchType.LAZY)
-    private List<User> visitors;
+    private Set<User> visitors;
 
-    public Restaurant(String description, List<Meal> meals, List<User> visitors, String address) {
+    public Restaurant(String description, Set<Meal> meals, Set<User> visitors, String address) {
         this.description = description;
         this.meals = meals;
         this.visitors = visitors;
         this.address = address;
     }
 
-    public Restaurant(Integer id, String description, List<Meal> meals, List<User> visitors, String address) {
+    public Restaurant(Integer id, String description, Set<Meal> meals, Set<User> visitors, String address) {
         super(id);
         this.description = description;
         this.meals = meals;
