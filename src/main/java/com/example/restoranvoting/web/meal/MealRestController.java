@@ -18,6 +18,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
+import static com.example.restoranvoting.util.validation.ValidationUtil.assureIdConsistent;
 import static com.example.restoranvoting.util.validation.ValidationUtil.checkNew;
 
 @RestController
@@ -55,6 +56,15 @@ public class MealRestController {
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
+    }
+
+    @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @CacheEvict(allEntries = true)
+    public void update(@Valid @RequestBody Meal meal, @PathVariable int id) {
+        log.info("update {} with id {}", meal, id);
+        assureIdConsistent(meal, id);
+        repository.save(meal);
     }
 
     @DeleteMapping("/{id}")

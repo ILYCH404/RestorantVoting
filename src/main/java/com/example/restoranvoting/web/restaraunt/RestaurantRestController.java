@@ -67,6 +67,8 @@ public class RestaurantRestController {
     }
 
     @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @CacheEvict(allEntries = true)
     public void update(@Valid @RequestBody Restaurant restaurant,@PathVariable int id) {
         log.info("update {} with id {}", restaurant, id);
         assureIdConsistent(restaurant, id);
