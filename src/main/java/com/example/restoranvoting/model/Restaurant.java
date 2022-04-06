@@ -2,6 +2,8 @@ package com.example.restoranvoting.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -23,7 +25,8 @@ public class Restaurant extends BaseEntity {
     @NotBlank
     private String address;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant", orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonManagedReference
     private List<Meal> meals;
 
