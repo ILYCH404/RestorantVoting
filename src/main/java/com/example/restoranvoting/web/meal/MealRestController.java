@@ -2,6 +2,7 @@ package com.example.restoranvoting.web.meal;
 
 import com.example.restoranvoting.model.Meal;
 import com.example.restoranvoting.repository.MealRepository;
+import com.example.restoranvoting.repository.RestaurantRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -28,16 +29,18 @@ import static com.example.restoranvoting.util.validation.ValidationUtil.checkNew
 @CacheConfig(cacheNames = "meals")
 public class MealRestController {
 
-    static final String REST_URL = "/admin/meals";
+    static final String REST_URL = "/api/admin/restaurant";
 
     @Autowired
     protected MealRepository repository;
+    @Autowired
+    protected RestaurantRepository restaurantRepository;
 
-    @GetMapping
+    @GetMapping("/{restaurant_id}/meals")
     @Cacheable
-    public List<Meal> getAll() {
-        log.info("getAll");
-        return repository.findAll(Sort.by(Sort.Direction.ASC, "description"));
+    public List<Meal> getAll(@PathVariable int restaurant_id) {
+        log.info("getAll for restaurant {}", restaurant_id);
+        return repository.getAllByRestaurantId(restaurant_id);
     }
 
     @GetMapping("/{id}")
@@ -46,11 +49,12 @@ public class MealRestController {
         return ResponseEntity.of(repository.findById(id));
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping( value = "/{restaurant_id}/meal", consumes = MediaType.APPLICATION_JSON_VALUE)
     @CacheEvict(allEntries = true)
-    public ResponseEntity<Meal> createWithLocation(@Valid @RequestBody Meal meal) {
-        log.info("create{}", meal);
+    public ResponseEntity<Meal> createWithLocation(@Valid @RequestBody Meal meal, @PathVariable int restaurant_id) {
+        log.info("create{} for restaurant {}", meal, restaurant_id);
         checkNew(meal);
+        meal.setRestaurant(restaurantRepository.getById(restaurant_id));
         Meal created = repository.save(meal);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
