@@ -1,12 +1,12 @@
 package com.example.restoranvoting.model;
 
+import com.example.restoranvoting.HasIdAndEmail;
+import com.example.restoranvoting.util.validation.NoHtml;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.util.CollectionUtils;
-import com.example.restoranvoting.HasIdAndEmail;
-import com.example.restoranvoting.util.validation.NoHtml;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -34,13 +34,13 @@ public class User extends NamedEntity implements HasIdAndEmail, Serializable {
     @Email
     @NotBlank
     @Size(max = 100)
-    @NoHtml   // https://stackoverflow.com/questions/17480809
+    @NoHtml
     private String email;
 
     @Column(name = "password", nullable = false)
     @NotBlank
     @Size(min = 5, max = 100)
-    // https://stackoverflow.com/a/12505165/548473
+
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
@@ -58,7 +58,7 @@ public class User extends NamedEntity implements HasIdAndEmail, Serializable {
             uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "role"}, name = "uk_user_roles"))
     @Column(name = "role")
     @ElementCollection(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id") //https://stackoverflow.com/a/62848296/548473
+    @JoinColumn(name = "user_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Role> roles;
 

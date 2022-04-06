@@ -1,10 +1,10 @@
 package com.example.restoranvoting.model;
 
+import com.example.restoranvoting.util.validation.NoHtml;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import com.example.restoranvoting.util.validation.NoHtml;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;

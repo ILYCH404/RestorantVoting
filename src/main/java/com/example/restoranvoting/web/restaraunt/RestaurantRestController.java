@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +36,7 @@ public class RestaurantRestController {
     @Cacheable
     public List<Restaurant> getAll() {
         log.info("getAll");
-        return repository.findAll(Sort.by(Sort.Direction.ASC, "description"));
+        return repository.findAll();
     }
 
     @GetMapping("/admin/restaurants/{id}")
