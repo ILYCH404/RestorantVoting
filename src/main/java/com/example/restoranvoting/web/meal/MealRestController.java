@@ -43,7 +43,7 @@ public class MealRestController {
         return repository.getAllByRestaurantId(restaurant_id);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("meal/{id}")
     public ResponseEntity<Meal> get(@PathVariable int id) {
         log.info("get {}", id);
         return ResponseEntity.of(repository.findById(id));
@@ -62,16 +62,17 @@ public class MealRestController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/{restaurant_id}/meal/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(allEntries = true)
-    public void update(@Valid @RequestBody Meal meal, @PathVariable int id) {
-        log.info("update {} with id {}", meal, id);
+    public void update(@Valid @RequestBody Meal meal, @PathVariable int id, @PathVariable int restaurant_id) {
+        log.info("update {} with id {} from restaurant {}", meal, id, restaurant_id);
         assureIdConsistent(meal, id);
+        meal.setRestaurant(restaurantRepository.getById(restaurant_id));
         repository.save(meal);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/meal/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
         log.info("delete {}", id);
