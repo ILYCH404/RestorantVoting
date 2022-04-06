@@ -4,6 +4,10 @@ import com.example.restoranvoting.model.Restaurant;
 import com.example.restoranvoting.repository.RestaurantRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +25,7 @@ import static com.example.restoranvoting.util.validation.ValidationUtil.checkNew
 @RestController
 @RequestMapping(value = RestaurantRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
+@CacheConfig(cacheNames = "restaurant")
 public class RestaurantRestController {
     static final String REST_URL = "/admin/restaurants";
 
@@ -28,9 +33,10 @@ public class RestaurantRestController {
     protected RestaurantRepository repository;
 
     @GetMapping
+    @Cacheable
     public List<Restaurant> getAll() {
         log.info("getAll");
-        return repository.findAll();
+        return repository.findAll(Sort.by(Sort.Direction.ASC, "description"));
     }
 
     @GetMapping("/{id}")
@@ -41,12 +47,14 @@ public class RestaurantRestController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @CacheEvict(value = "restaurant", allEntries = true)
     public void delete(@PathVariable int id) {
         log.info("delete {}", id);
         repository.delete(id);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @CacheEvict(allEntries = true)
     public ResponseEntity<Restaurant> createWithLocation(@Valid @RequestBody Restaurant restaurant) {
         log.info("create {}", restaurant);
         checkNew(restaurant);

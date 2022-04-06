@@ -4,6 +4,9 @@ import com.example.restoranvoting.model.Meal;
 import com.example.restoranvoting.repository.MealRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,6 +24,7 @@ import static com.example.restoranvoting.util.validation.ValidationUtil.checkNew
 @RequestMapping(value = MealRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 // TODO: cache only most requested data!
+@CacheConfig(cacheNames = "meals")
 public class MealRestController {
 
     static final String REST_URL = "/restaurant/meals";
@@ -29,6 +33,7 @@ public class MealRestController {
     protected MealRepository repository;
 
     @GetMapping
+    @Cacheable
     public List<Meal> getAll() {
         log.info("getAll");
         return repository.findAll(Sort.by(Sort.Direction.ASC, "description"));
@@ -41,6 +46,7 @@ public class MealRestController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @CacheEvict(allEntries = true)
     public ResponseEntity<Meal> createWithLocation(@Valid @RequestBody Meal meal) {
         log.info("create{}", meal);
         checkNew(meal);
