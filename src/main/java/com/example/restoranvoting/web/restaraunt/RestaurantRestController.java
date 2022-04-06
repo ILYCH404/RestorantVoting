@@ -19,6 +19,7 @@ import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 
+import static com.example.restoranvoting.util.validation.ValidationUtil.assureIdConsistent;
 import static com.example.restoranvoting.util.validation.ValidationUtil.checkNew;
 
 
@@ -63,6 +64,13 @@ public class RestaurantRestController {
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
+    }
+
+    @PostMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void update(@Valid @RequestBody Restaurant restaurant,@PathVariable int id) {
+        log.info("update {} with id {}", restaurant, id);
+        assureIdConsistent(restaurant, id);
+        repository.save(restaurant);
     }
 
     @GetMapping("/by-description")
