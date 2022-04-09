@@ -1,16 +1,17 @@
+INSERT INTO RESTAURANT (address, description)
+VALUES ('Невский проспект', 'Клод-Моне'),
+       ('Сенная', 'Зима'),
+       ('Дыбенко', 'Чернигов');
+
 INSERT INTO USERS (name, email, password)
 VALUES ('User', 'user@yandex.com', '{noop}password'),
-       ('Admin', 'admin@gmail.com', '{noop}admin');
+       ('Admin', 'admin@gmail.com', '{noop}admin'),
+       ('Guest', 'guest@gmail.com', '{noop}admin');
 
 INSERT INTO USER_ROLES (role, user_id)
 VALUES ('USER', 1),
        ('ADMIN', 2),
        ('USER', 2);
-
-INSERT INTO RESTORAUNT (address, description)
-VALUES ('Невский проспект', 'Клод-Моне'),
-       ('Сенная', 'Зима'),
-       ('Дыбенко', 'Чернигов');
 
 INSERT INTO MEALS (calories, description, price, restaurant_id)
 VALUES (500, 'Манная каша', 100, 1),
