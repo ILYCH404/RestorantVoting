@@ -25,7 +25,7 @@ public class Vote extends BaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
-    @Column(name = "vote", nullable = false, unique = true, columnDefinition = "bool default true")
+    @Column(name = "vote", nullable = false, columnDefinition = "bool default true")
     private boolean vote = true;
 
     @Column(name = "time", columnDefinition = "TIMESTAMP DEFAULT NOW()", updatable = false)
