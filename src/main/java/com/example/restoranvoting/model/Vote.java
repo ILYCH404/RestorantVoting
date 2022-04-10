@@ -1,6 +1,8 @@
 package com.example.restoranvoting.model;
 
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,30 +17,28 @@ public class Vote extends BaseEntity {
 
     @JoinColumn(name = "user_id")
     @OneToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
     @JoinColumn(name = "restaurant_id")
     @OneToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
-    @Column(name = "vote")
-    private boolean vote;
+    @Column(name = "vote", nullable = false, unique = true, columnDefinition = "bool default true")
+    private boolean vote = true;
 
     @Column(name = "time", columnDefinition = "TIMESTAMP DEFAULT NOW()", updatable = false)
-    private LocalDateTime DateTime;
+    private LocalDateTime DateTime = LocalDateTime.now();
 
-    public Vote(Integer id, User user, Restaurant restaurant, boolean vote, LocalDateTime DateTime) {
+    public Vote(Integer id, User user, Restaurant restaurant) {
         super(id);
         this.user = user;
         this.restaurant = restaurant;
-        this.vote = vote;
-        this.DateTime = DateTime;
     }
 
-    public Vote(User user, Restaurant restaurant, boolean vote, LocalDateTime DateTime) {
+    public Vote(User user, Restaurant restaurant) {
         this.user = user;
         this.restaurant = restaurant;
-        this.vote = vote;
-        this.DateTime = DateTime;
     }
 }
