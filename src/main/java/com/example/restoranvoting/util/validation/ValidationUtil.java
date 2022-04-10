@@ -6,6 +6,12 @@ import org.springframework.lang.NonNull;
 import com.example.restoranvoting.HasId;
 import com.example.restoranvoting.error.IllegalRequestDataException;
 
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+
 @UtilityClass
 public class ValidationUtil {
 
@@ -33,5 +39,9 @@ public class ValidationUtil {
     public static Throwable getRootCause(@NonNull Throwable t) {
         Throwable rootCause = NestedExceptionUtils.getRootCause(t);
         return rootCause != null ? rootCause : t;
+    }
+
+    public static boolean checkTime(){
+        return LocalTime.now().isBefore(LocalTime.of(23, 0, 0));
     }
 }
