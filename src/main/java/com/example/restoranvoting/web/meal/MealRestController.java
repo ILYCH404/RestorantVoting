@@ -48,12 +48,11 @@ public class MealRestController {
         return ResponseEntity.of(repository.findById(id));
     }
 
-    @PostMapping(value = "/{restaurant_id}/meals", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/createMeal", consumes = MediaType.APPLICATION_JSON_VALUE)
     @CacheEvict(allEntries = true)
-    public ResponseEntity<Meal> createWithLocation(@Valid @RequestBody Meal meal, @PathVariable int restaurant_id) {
-        log.info("create{} for restaurant {}", meal, restaurant_id);
+    public ResponseEntity<Meal> createWithLocation(@Valid @RequestBody Meal meal) {
+        log.info("create{}", meal);
         checkNew(meal);
-        meal.setRestaurant(restaurantRepository.getById(restaurant_id));
         Meal created = repository.save(meal);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
@@ -61,13 +60,12 @@ public class MealRestController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @PostMapping(value = "/{restaurant_id}/meals/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/updateMeal/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(allEntries = true)
-    public void update(@Valid @RequestBody Meal meal, @PathVariable int id, @PathVariable int restaurant_id) {
-        log.info("update {} with id {} from restaurant {}", meal, id, restaurant_id);
+    public void update(@Valid @RequestBody Meal meal, @PathVariable int id) {
+        log.info("update {} with id {}", meal, id);
         assureIdConsistent(meal, id);
-        meal.setRestaurant(restaurantRepository.getById(restaurant_id));
         repository.save(meal);
     }
 
