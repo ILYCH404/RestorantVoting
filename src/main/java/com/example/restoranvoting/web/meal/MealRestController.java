@@ -31,27 +31,27 @@ import static com.example.restoranvoting.util.validation.ValidationUtil.checkNew
 @CacheConfig(cacheNames = "meals")
 public class MealRestController {
 
-    static final String REST_URL = "/api/admin/restaurant";
+    static final String REST_URL = "/admin/meals";
 
     @Autowired
     protected MealRepository repository;
     @Autowired
     protected RestaurantRepository restaurantRepository;
 
-    @GetMapping("/{restaurant_id}/meals")
+    @GetMapping("/{restaurant_id}/menu")
     @Cacheable
     public List<Meal> getMenu(@PathVariable int restaurant_id) {
         log.info("getAll for restaurant {}", restaurant_id);
         return repository.getAllByRestaurantId(restaurant_id);
     }
 
-    @GetMapping("meals/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Meal> get(@PathVariable int id) {
         log.info("get {}", id);
         return ResponseEntity.of(repository.findById(id));
     }
 
-    @PostMapping(value = "/createMeal", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
     @CacheEvict(allEntries = true)
     public ResponseEntity<Meal> createWithLocation(@Valid @RequestBody Meal meal) {
         log.info("create{}", meal);
@@ -63,7 +63,7 @@ public class MealRestController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @PostMapping(value = "/updateMeal/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(allEntries = true)
     public void update(@Valid @RequestBody Meal meal, @PathVariable int id) {
@@ -72,7 +72,7 @@ public class MealRestController {
         repository.save(meal);
     }
 
-    @DeleteMapping("/meals/{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
         log.info("delete {}", id);

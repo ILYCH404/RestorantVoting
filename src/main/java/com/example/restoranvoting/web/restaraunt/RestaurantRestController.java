@@ -32,26 +32,26 @@ public class RestaurantRestController {
     @Autowired
     protected RestaurantRepository repository;
 
-    @GetMapping("/profile/restaurants")
+    @GetMapping
     @Cacheable
     public List<Restaurant> getAll() {
         log.info("getAll");
         return repository.findAll();
     }
 
-    @GetMapping("/admin/restaurants/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Restaurant> get(@PathVariable int id) {
         log.info("get {}", id);
         return ResponseEntity.of(Objects.requireNonNull(repository.findById(id)));
     }
 
-    @GetMapping("/admin/restaurants/withMeals/{id}")
+    @GetMapping("/withMeals/{id}")
     public ResponseEntity<Restaurant> getWithMeals(@PathVariable int id) {
         log.info("get {}", id);
         return ResponseEntity.of(Objects.requireNonNull(repository.getWithMeals(id)));
     }
 
-    @DeleteMapping("/admin/restaurants/{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(value = "restaurant", allEntries = true)
     public void delete(@PathVariable int id) {
@@ -59,7 +59,7 @@ public class RestaurantRestController {
         repository.delete(id);
     }
 
-    @PostMapping(value = "/admin/restaurants",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @CacheEvict(allEntries = true)
     public ResponseEntity<Restaurant> createWithLocation(@Valid @RequestBody Restaurant restaurant) {
         log.info("create {}", restaurant);
@@ -71,7 +71,7 @@ public class RestaurantRestController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @PostMapping(value = "/admin/restaurants/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(allEntries = true)
     public void update(@Valid @RequestBody Restaurant restaurant,@PathVariable int id) {
@@ -80,7 +80,7 @@ public class RestaurantRestController {
         repository.save(restaurant);
     }
 
-    @GetMapping("/admin/restaurants/by-description")
+    @GetMapping("/by-description")
     public ResponseEntity<Restaurant> getByDescription(@RequestParam String description) {
         log.info("getByDescription {}", description);
         return ResponseEntity.of(repository.findByDescription(description));
