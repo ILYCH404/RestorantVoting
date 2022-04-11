@@ -1,5 +1,7 @@
 #  https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 spring:
+  aop:
+    auto: true
   jpa:
     show-sql: true
     open-in-view: false
@@ -37,8 +39,11 @@ spring:
 logging:
   level:
     root: WARN
-    ru.javaops.topjava2: DEBUG
+    com.example.restoranvoting.util.aspects: INFO
     org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+  file: log\app.log
 
 server.servlet:
   encoding:

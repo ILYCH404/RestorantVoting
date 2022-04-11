@@ -26,7 +26,6 @@ import static com.example.restoranvoting.util.validation.ValidationUtil.checkNew
 
 @RestController
 @RequestMapping(value = MealRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-@Slf4j
 // TODO: cache only most requested data!
 @CacheConfig(cacheNames = "meals")
 public class MealRestController {
@@ -41,20 +40,17 @@ public class MealRestController {
     @GetMapping("/{restaurant_id}/menu")
     @Cacheable
     public List<Meal> getMenu(@PathVariable int restaurant_id) {
-        log.info("getAll for restaurant {}", restaurant_id);
         return repository.getAllByRestaurantId(restaurant_id);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Meal> get(@PathVariable int id) {
-        log.info("get {}", id);
         return ResponseEntity.of(repository.findById(id));
     }
 
     @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
     @CacheEvict(allEntries = true)
     public ResponseEntity<Meal> createWithLocation(@Valid @RequestBody Meal meal) {
-        log.info("create{}", meal);
         checkNew(meal);
         Meal created = repository.save(meal);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -67,7 +63,6 @@ public class MealRestController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(allEntries = true)
     public void update(@Valid @RequestBody Meal meal, @PathVariable int id) {
-        log.info("update {} with id {}", meal, id);
         assureIdConsistent(meal, id);
         repository.save(meal);
     }
@@ -75,7 +70,6 @@ public class MealRestController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
-        log.info("delete {}", id);
         repository.delete(id);
     }
 

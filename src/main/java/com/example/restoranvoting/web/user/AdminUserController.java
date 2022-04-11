@@ -22,7 +22,6 @@ import static com.example.restoranvoting.util.validation.ValidationUtil.checkNew
 
 @RestController
 @RequestMapping(value = AdminUserController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-@Slf4j
 // TODO: cache only most requested data!
 @CacheConfig(cacheNames = "users")
 public class AdminUserController extends AbstractUserController {
@@ -45,14 +44,12 @@ public class AdminUserController extends AbstractUserController {
     @GetMapping
     @Cacheable
     public List<User> getAll() {
-        log.info("getAll");
         return repository.findAll(Sort.by(Sort.Direction.ASC, "name", "email"));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @CacheEvict(allEntries = true)
     public ResponseEntity<User> createWithLocation(@Valid @RequestBody User user) {
-        log.info("create {}", user);
         checkNew(user);
         User created = prepareAndSave(user);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -65,14 +62,12 @@ public class AdminUserController extends AbstractUserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(allEntries = true)
     public void update(@Valid @RequestBody User user, @PathVariable int id) {
-        log.info("update {} with id={}", user, id);
         assureIdConsistent(user, id);
         prepareAndSave(user);
     }
 
     @GetMapping("/by-email")
     public ResponseEntity<User> getByEmail(@RequestParam String email) {
-        log.info("getByEmail {}", email);
         return ResponseEntity.of(repository.getByEmail(email));
     }
 
@@ -81,7 +76,6 @@ public class AdminUserController extends AbstractUserController {
     @Transactional
     @CacheEvict(allEntries = true)
     public void enable(@PathVariable int id, @RequestParam boolean enabled) {
-        log.info(enabled ? "enable {}" : "disable {}", id);
         User user = repository.getById(id);
         user.setEnabled(enabled);
     }
