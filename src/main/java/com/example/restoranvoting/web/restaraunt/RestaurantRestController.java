@@ -23,7 +23,7 @@ import static com.example.restoranvoting.util.validation.ValidationUtil.checkNew
 
 
 @RestController
-@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = RestaurantRestController.REST_URL,produces = MediaType.APPLICATION_JSON_VALUE)
 @Slf4j
 @CacheConfig(cacheNames = "restaurant")
 public class RestaurantRestController {
@@ -43,6 +43,12 @@ public class RestaurantRestController {
     public ResponseEntity<Restaurant> get(@PathVariable int id) {
         log.info("get {}", id);
         return ResponseEntity.of(Objects.requireNonNull(repository.findById(id)));
+    }
+
+    @GetMapping("/admin/restaurants/withMeals/{id}")
+    public ResponseEntity<Restaurant> getWithMeals(@PathVariable int id) {
+        log.info("get {}", id);
+        return ResponseEntity.of(Objects.requireNonNull(repository.getWithMeals(id)));
     }
 
     @DeleteMapping("/admin/restaurants/{id}")
