@@ -39,7 +39,7 @@ spring:
 logging:
   level:
     root: WARN
-    com.example.restoranvoting.util.aspects: INFO
+    com.example.restoranvoting: INFO
     org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: DEBUG
   file: log\app.log
 
