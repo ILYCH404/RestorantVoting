@@ -15,24 +15,14 @@ import java.util.Arrays;
 @Slf4j
 public class LoggingAspect {
 
-    @Pointcut("@annotation(org.springframework.web.bind.annotation.DeleteMapping)")
-    public void DeleteMapping(){}
+    @Pointcut("execution(public * com.example.restoranvoting.web..*(..))")
+    public void MethodsFromWebPackage(){}
 
-    @Pointcut("@annotation(org.springframework.web.bind.annotation.PutMapping)")
-    public void PutMapping(){}
-
-    @Pointcut("@annotation(org.springframework.web.bind.annotation.PostMapping)")
-    public void PostMapping(){}
-
-    @Pointcut("execution(public * com.example.restoranvoting.web..get*(..))")
-    public void GetMapping(){}
-
-    @Before("DeleteMapping() || PostMapping() || PutMapping() || GetMapping() || execution(* enable(int, boolean))")
-    public void MappingMethods(JoinPoint jp) {
+    @Before("MethodsFromWebPackage()")
+    public void test(JoinPoint jp) {
         MethodSignature methodSignature = (MethodSignature) jp.getSignature();
-        log.info("-".repeat(103));
-        log.info(methodSignature.getDeclaringTypeName()
+        log.info("-".repeat(103) + "\n" + methodSignature.getDeclaringTypeName()
                 + " method: " + methodSignature.getMethod().getName()
-                + ", with parameters: " + Arrays.toString(methodSignature.getParameterTypes()) + Arrays.toString(jp.getArgs()));
+                + ", with parameters: " + Arrays.toString(methodSignature.getParameterTypes()) + Arrays.toString(jp.getArgs()) + "\n");
     }
 }

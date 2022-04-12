@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 
-@Slf4j
+
 public abstract class AbstractUserController {
 
     @Autowired
@@ -25,13 +25,11 @@ public abstract class AbstractUserController {
     }
 
     public ResponseEntity<User> get(int id) {
-        log.info("get {}", id);
         return ResponseEntity.of(repository.findById(id));
     }
 
     @CacheEvict(value = "users", allEntries = true)
     public void delete(int id) {
-        log.info("delete {}", id);
         repository.deleteExisted(id);
     }
 

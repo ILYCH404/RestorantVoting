@@ -41,8 +41,6 @@ logging:
     root: WARN
     com.example.restoranvoting.util.aspects: INFO
     org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: DEBUG
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
   file: log\app.log
 
 server.servlet:

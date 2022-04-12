@@ -17,7 +17,6 @@ import static com.example.restoranvoting.util.validation.ValidationUtil.checkTim
 
 @RestController
 @RequestMapping(value = VoteRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-@Slf4j
 public class VoteRestController {
     static final String REST_URL = "/api/profile";
 
@@ -34,7 +33,6 @@ public class VoteRestController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
     public void vote(@PathVariable int user_id, @PathVariable int restaurant_id) {
-        log.info("vote {} for restaurant {}", user_id, restaurant_id);
         Vote newVote = new Vote(userRepository.getById(user_id),
                 restaurantRepository.getById(restaurant_id));
 
