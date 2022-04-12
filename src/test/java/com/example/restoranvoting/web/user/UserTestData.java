@@ -1,9 +1,9 @@
 package com.example.restoranvoting.web.user;
 
+import com.example.restoranvoting.MatcherFactory;
 import com.example.restoranvoting.model.Role;
 import com.example.restoranvoting.model.User;
 import com.example.restoranvoting.util.JsonUtil;
-import com.example.restoranvoting.web.MatcherFactory;
 
 import java.util.Collections;
 import java.util.Date;

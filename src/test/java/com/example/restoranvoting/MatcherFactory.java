@@ -1,4 +1,4 @@
-package com.example.restoranvoting.web;
+package com.example.restoranvoting;
 
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
