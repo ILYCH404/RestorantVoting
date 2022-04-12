@@ -1,10 +1,10 @@
 package com.example.restoranvoting.to;
 
+import com.example.restoranvoting.HasIdAndEmail;
+import com.example.restoranvoting.util.validation.NoHtml;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.Value;
-import com.example.restoranvoting.HasIdAndEmail;
-import com.example.restoranvoting.util.validation.NoHtml;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;

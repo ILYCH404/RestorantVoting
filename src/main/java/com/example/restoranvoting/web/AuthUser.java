@@ -1,9 +1,9 @@
 package com.example.restoranvoting.web;
 
+import com.example.restoranvoting.model.User;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.lang.NonNull;
-import com.example.restoranvoting.model.User;
 
 @Getter
 @ToString(of = "user")

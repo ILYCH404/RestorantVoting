@@ -1,8 +1,8 @@
 package com.example.restoranvoting.to;
 
+import com.example.restoranvoting.util.validation.NoHtml;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import com.example.restoranvoting.util.validation.NoHtml;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;

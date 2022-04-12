@@ -4,7 +4,6 @@ import com.example.restoranvoting.model.Meal;
 import com.example.restoranvoting.model.Restaurant;
 import com.example.restoranvoting.repository.MealRepository;
 import com.example.restoranvoting.repository.RestaurantRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -19,6 +18,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 import static com.example.restoranvoting.util.validation.ValidationUtil.assureIdConsistent;
@@ -32,27 +32,29 @@ public class MealRestController {
 
     static final String REST_URL = "/admin/meals";
 
+    private final Random random = new Random();
+
     @Autowired
-    protected MealRepository repository;
+    protected MealRepository mealRepository;
     @Autowired
     protected RestaurantRepository restaurantRepository;
 
     @GetMapping("/{restaurant_id}/menu")
     @Cacheable
     public List<Meal> getMenu(@PathVariable int restaurant_id) {
-        return repository.getAllByRestaurantId(restaurant_id);
+        return mealRepository.getAllByRestaurantId(restaurant_id);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Meal> get(@PathVariable int id) {
-        return ResponseEntity.of(repository.findById(id));
+        return ResponseEntity.of(Objects.requireNonNull(mealRepository.findById(id)));
     }
 
-    @PostMapping(value = "", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @CacheEvict(allEntries = true)
     public ResponseEntity<Meal> createWithLocation(@Valid @RequestBody Meal meal) {
         checkNew(meal);
-        Meal created = repository.save(meal);
+        Meal created = mealRepository.save(meal);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -64,27 +66,25 @@ public class MealRestController {
     @CacheEvict(allEntries = true)
     public void update(@Valid @RequestBody Meal meal, @PathVariable int id) {
         assureIdConsistent(meal, id);
-        repository.save(meal);
+        mealRepository.save(meal);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
-        repository.delete(id);
+        mealRepository.delete(id);
     }
 
     @PostMapping("/createMenu/{restaurant_id}")
     @Transactional
     public void createMenuForRestaurant(@PathVariable int restaurant_id) {
-        repository.getAllByRestaurantId(restaurant_id).forEach(meal -> meal.setRestaurant(null));
-
+        mealRepository.getAllByRestaurantId(restaurant_id).forEach(meal -> meal.setRestaurant(null));
         Restaurant restaurant = restaurantRepository.getById(restaurant_id);
-        Random random = new Random();
-        int meals_count = random.nextInt(3) + 2;
 
+        int meals_count = random.nextInt(3) + 2;
         while (meals_count-- >= 1) {
-            int meals_id = Math.toIntExact(random.nextLong(repository.count()) + 1);
-            Meal meal = repository.getById(meals_id);
+            int meals_id = Math.toIntExact(random.nextLong(mealRepository.count()) + 1);
+            Meal meal = mealRepository.getById(meals_id);
             if (meal.getRestaurant() != null) {
                 meals_count++;
                 continue;

@@ -2,8 +2,6 @@ package com.example.restoranvoting.web.restaraunt;
 
 import com.example.restoranvoting.model.Restaurant;
 import com.example.restoranvoting.repository.RestaurantRepository;
-import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -24,7 +22,7 @@ import static com.example.restoranvoting.util.validation.ValidationUtil.checkNew
 
 
 @RestController
-@RequestMapping(value = RestaurantRestController.REST_URL,produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = RestaurantRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @CacheConfig(cacheNames = "restaurant")
 public class RestaurantRestController {
     static final String REST_URL = "/admin/restaurants";
@@ -69,7 +67,7 @@ public class RestaurantRestController {
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(allEntries = true)
-    public void update(@Valid @RequestBody Restaurant restaurant,@PathVariable int id) {
+    public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable int id) {
         assureIdConsistent(restaurant, id);
         repository.save(restaurant);
     }

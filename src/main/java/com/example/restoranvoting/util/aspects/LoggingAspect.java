@@ -16,7 +16,8 @@ import java.util.Arrays;
 public class LoggingAspect {
 
     @Pointcut("execution(public * com.example.restoranvoting.web..*(..))")
-    public void MethodsFromWebPackage(){}
+    public void MethodsFromWebPackage() {
+    }
 
     @Before("MethodsFromWebPackage()")
     public void test(JoinPoint jp) {

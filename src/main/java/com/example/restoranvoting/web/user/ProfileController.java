@@ -1,6 +1,9 @@
 package com.example.restoranvoting.web.user;
 
-import lombok.extern.slf4j.Slf4j;
+import com.example.restoranvoting.model.User;
+import com.example.restoranvoting.to.UserTo;
+import com.example.restoranvoting.util.UserUtil;
+import com.example.restoranvoting.web.AuthUser;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
@@ -10,10 +13,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import com.example.restoranvoting.model.User;
-import com.example.restoranvoting.to.UserTo;
-import com.example.restoranvoting.util.UserUtil;
-import com.example.restoranvoting.web.AuthUser;
 
 import javax.validation.Valid;
 import java.net.URI;

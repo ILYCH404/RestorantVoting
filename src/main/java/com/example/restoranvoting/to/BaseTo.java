@@ -1,11 +1,11 @@
 package com.example.restoranvoting.to;
 
+import com.example.restoranvoting.HasId;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.example.restoranvoting.HasId;
 
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PROTECTED)

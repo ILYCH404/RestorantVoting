@@ -1,7 +1,7 @@
 package com.example.restoranvoting.repository;
 
-import org.springframework.transaction.annotation.Transactional;
 import com.example.restoranvoting.model.User;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 

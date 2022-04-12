@@ -1,9 +1,9 @@
 package com.example.restoranvoting.web;
 
+import com.example.restoranvoting.model.User;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import com.example.restoranvoting.model.User;
 
 import static java.util.Objects.requireNonNull;
 
