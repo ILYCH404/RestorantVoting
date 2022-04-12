@@ -7,7 +7,6 @@ import com.example.restoranvoting.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +16,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -38,12 +36,6 @@ public class MealRestController {
     protected MealRepository mealRepository;
     @Autowired
     protected RestaurantRepository restaurantRepository;
-
-    @GetMapping("/{restaurant_id}/menu")
-    @Cacheable
-    public List<Meal> getMenu(@PathVariable int restaurant_id) {
-        return mealRepository.getAllByRestaurantId(restaurant_id);
-    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Meal> get(@PathVariable int id) {

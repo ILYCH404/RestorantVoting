@@ -1,6 +1,8 @@
 package com.example.restoranvoting.web.restaraunt;
 
+import com.example.restoranvoting.model.Meal;
 import com.example.restoranvoting.model.Restaurant;
+import com.example.restoranvoting.repository.MealRepository;
 import com.example.restoranvoting.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -28,36 +30,36 @@ public class RestaurantRestController {
     static final String REST_URL = "/admin/restaurants";
 
     @Autowired
-    protected RestaurantRepository repository;
+    protected RestaurantRepository restaurantRepository;
 
     @GetMapping
     @Cacheable
     public List<Restaurant> getAll() {
-        return repository.findAll();
+        return restaurantRepository.findAll();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Restaurant> get(@PathVariable int id) {
-        return ResponseEntity.of(Objects.requireNonNull(repository.findById(id)));
+        return ResponseEntity.of(Objects.requireNonNull(restaurantRepository.findById(id)));
     }
 
     @GetMapping("/withMeals/{id}")
     public ResponseEntity<Restaurant> getWithMeals(@PathVariable int id) {
-        return ResponseEntity.of(Objects.requireNonNull(repository.getWithMeals(id)));
+        return ResponseEntity.of(Objects.requireNonNull(restaurantRepository.getWithMeals(id)));
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(value = "restaurant", allEntries = true)
     public void delete(@PathVariable int id) {
-        repository.delete(id);
+        restaurantRepository.delete(id);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @CacheEvict(allEntries = true)
     public ResponseEntity<Restaurant> createWithLocation(@Valid @RequestBody Restaurant restaurant) {
         checkNew(restaurant);
-        Restaurant created = repository.save(restaurant);
+        Restaurant created = restaurantRepository.save(restaurant);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -69,11 +71,11 @@ public class RestaurantRestController {
     @CacheEvict(allEntries = true)
     public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable int id) {
         assureIdConsistent(restaurant, id);
-        repository.save(restaurant);
+        restaurantRepository.save(restaurant);
     }
 
     @GetMapping("/by-description")
     public ResponseEntity<Restaurant> getByDescription(@RequestParam String description) {
-        return ResponseEntity.of(repository.findByDescription(description));
+        return ResponseEntity.of(restaurantRepository.findByDescription(description));
     }
 }
