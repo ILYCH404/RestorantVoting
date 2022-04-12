@@ -7,6 +7,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -28,18 +29,16 @@ public class Restaurant extends BaseEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonManagedReference
-    private Set<Meal> meals;
+    private List<Meal> meals;
 
-    public Restaurant(String description, Set<Meal> meals, String address) {
+    public Restaurant(String description, String address) {
         this.description = description;
-        this.meals = meals;
         this.address = address;
     }
 
-    public Restaurant(Integer id, String description, Set<Meal> meals, String address) {
+    public Restaurant(Integer id, String description, String address) {
         super(id);
         this.description = description;
-        this.meals = meals;
         this.address = address;
     }
 }
