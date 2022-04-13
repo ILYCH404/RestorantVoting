@@ -7,6 +7,8 @@ import com.example.restaurantvoting.repository.UserRepository;
 import com.example.restaurantvoting.repository.VoteRepository;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +18,7 @@ import static com.example.restaurantvoting.util.validation.ValidationUtil.checkT
 
 @RestController
 @RequestMapping(value = VoteRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+@CacheConfig(cacheNames = "vote")
 public class VoteRestController {
     static final String REST_URL = "/api/profile";
 
@@ -31,6 +34,7 @@ public class VoteRestController {
     @GetMapping("/{user_id}/votes/{restaurant_id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
+    @CacheEvict(allEntries = true)
     public void vote(@PathVariable int user_id, @PathVariable int restaurant_id) {
         Vote newVote = new Vote(userRepository.getById(user_id),
                 restaurantRepository.getById(restaurant_id));
