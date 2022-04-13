@@ -1,11 +1,11 @@
 package com.example.restaurantvoting.util;
 
-import lombok.experimental.UtilityClass;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import com.example.restaurantvoting.model.Role;
 import com.example.restaurantvoting.model.User;
 import com.example.restaurantvoting.to.UserTo;
+import lombok.experimental.UtilityClass;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @UtilityClass
 public class UserUtil {

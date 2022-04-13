@@ -1,5 +1,9 @@
 package com.example.restaurantvoting.config;
 
+import com.example.restaurantvoting.model.Role;
+import com.example.restaurantvoting.model.User;
+import com.example.restaurantvoting.repository.UserRepository;
+import com.example.restaurantvoting.web.AuthUser;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,10 +17,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import com.example.restaurantvoting.model.Role;
-import com.example.restaurantvoting.model.User;
-import com.example.restaurantvoting.repository.UserRepository;
-import com.example.restaurantvoting.web.AuthUser;
 
 import java.util.Optional;
 

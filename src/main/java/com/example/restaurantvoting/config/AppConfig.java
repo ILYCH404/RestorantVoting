@@ -1,5 +1,6 @@
 package com.example.restaurantvoting.config;
 
+import com.example.restaurantvoting.util.JsonUtil;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
@@ -10,7 +11,6 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import com.example.restaurantvoting.util.JsonUtil;
 
 import java.sql.SQLException;
 
