@@ -30,7 +30,7 @@ import static com.example.restaurantvoting.util.validation.ValidationUtil.checkN
 @Api
 public class MealRestController {
 
-    static final String REST_URL = "/admin/meals";
+    static final String REST_URL = "/api/admin/meals";
 
     private final Random random = new Random();
 
@@ -69,7 +69,7 @@ public class MealRestController {
         mealRepository.delete(id);
     }
 
-    @PostMapping("/createMenu/{restaurant_id}")
+    @GetMapping("/createMenu/{restaurant_id}")
     @Transactional
     public void createMenuForRestaurant(@PathVariable int restaurant_id) {
         mealRepository.getAllByRestaurantId(restaurant_id).forEach(meal -> meal.setRestaurant(null));

@@ -25,7 +25,7 @@ import static com.example.restaurantvoting.util.validation.ValidationUtil.checkN
 @RequestMapping(value = RestaurantRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @CacheConfig(cacheNames = "restaurant")
 public class RestaurantRestController {
-    static final String REST_URL = "/admin/restaurants";
+    static final String REST_URL = "/api/admin/restaurants";
 
     @Autowired
     protected RestaurantRepository restaurantRepository;
