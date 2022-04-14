@@ -25,7 +25,7 @@ public class Meal extends BaseEntity {
     @Range(min = 30, max = 50000)
     private Integer price;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "restaurant_id")
     @JsonBackReference
     private Restaurant restaurant;

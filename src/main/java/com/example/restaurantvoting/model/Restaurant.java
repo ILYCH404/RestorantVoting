@@ -14,7 +14,7 @@ import java.util.List;
 @Table(name = "restaurant")
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(callSuper = true)
 public class Restaurant extends BaseEntity {
 
@@ -27,7 +27,7 @@ public class Restaurant extends BaseEntity {
     @NotBlank
     private String address;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonManagedReference
     private List<Meal> meals;

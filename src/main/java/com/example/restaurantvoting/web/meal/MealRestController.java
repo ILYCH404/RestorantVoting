@@ -5,7 +5,6 @@ import com.example.restaurantvoting.model.Restaurant;
 import com.example.restaurantvoting.repository.MealRepository;
 import com.example.restaurantvoting.repository.RestaurantRepository;
 import com.example.restaurantvoting.to.MealTo;
-import com.example.restaurantvoting.util.MealUtil;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -62,6 +61,7 @@ public class MealRestController {
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(allEntries = true)
+    @Transactional
     public void update(@Valid @RequestBody MealTo mealTo, @PathVariable int id) {
         assureIdConsistent(mealTo, id);
         Meal meal = mealRepository.getById(id);
