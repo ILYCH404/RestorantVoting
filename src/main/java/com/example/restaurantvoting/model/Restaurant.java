@@ -7,25 +7,27 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
 @Table(name = "restaurant")
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @ToString(callSuper = true)
 public class Restaurant extends BaseEntity {
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description", unique = true)
     @NotBlank
+    @Size(min = 2, max = 50)
     private String description;
 
     @Column(name = "address")
     @NotBlank
     private String address;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", orphanRemoval = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonManagedReference
     private List<Meal> meals;

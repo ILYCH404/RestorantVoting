@@ -2,6 +2,7 @@ package com.example.restaurantvoting.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -11,7 +12,7 @@ import javax.validation.constraints.Size;
 @Table(name = "meals")
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 @ToString(callSuper = true)
 public class Meal extends BaseEntity {
 
@@ -20,10 +21,11 @@ public class Meal extends BaseEntity {
     @Size(min = 2, max = 120)
     private String description;
 
-    @Column(name = "price")
+    @Column(name = "price", nullable = false)
+    @Range(min = 30, max = 50000)
     private Integer price;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")
     @JsonBackReference
     private Restaurant restaurant;
