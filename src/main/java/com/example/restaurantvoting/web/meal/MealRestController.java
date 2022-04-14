@@ -4,6 +4,8 @@ import com.example.restaurantvoting.model.Meal;
 import com.example.restaurantvoting.model.Restaurant;
 import com.example.restaurantvoting.repository.MealRepository;
 import com.example.restaurantvoting.repository.RestaurantRepository;
+import com.example.restaurantvoting.to.MealTo;
+import com.example.restaurantvoting.util.MealUtil;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -20,6 +22,8 @@ import java.net.URI;
 import java.util.Objects;
 import java.util.Random;
 
+import static com.example.restaurantvoting.util.MealUtil.createFromTo;
+import static com.example.restaurantvoting.util.MealUtil.updateFromTo;
 import static com.example.restaurantvoting.util.validation.ValidationUtil.assureIdConsistent;
 import static com.example.restaurantvoting.util.validation.ValidationUtil.checkNew;
 
@@ -46,9 +50,9 @@ public class MealRestController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @CacheEvict(allEntries = true)
-    public ResponseEntity<Meal> createWithLocation(@Valid @RequestBody Meal meal) {
-        checkNew(meal);
-        Meal created = mealRepository.save(meal);
+    public ResponseEntity<Meal> createWithLocation(@Valid @RequestBody MealTo mealTo) {
+        checkNew(mealTo);
+        Meal created = mealRepository.save(createFromTo(mealTo));
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -58,9 +62,10 @@ public class MealRestController {
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(allEntries = true)
-    public void update(@Valid @RequestBody Meal meal, @PathVariable int id) {
-        assureIdConsistent(meal, id);
-        mealRepository.save(meal);
+    public void update(@Valid @RequestBody MealTo mealTo, @PathVariable int id) {
+        assureIdConsistent(mealTo, id);
+        Meal meal = mealRepository.getById(id);
+        mealRepository.save(updateFromTo(meal, mealTo));
     }
 
     @DeleteMapping("/{id}")

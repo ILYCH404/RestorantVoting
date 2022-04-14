@@ -2,6 +2,8 @@ package com.example.restaurantvoting.web.restaraunt;
 
 import com.example.restaurantvoting.model.Restaurant;
 import com.example.restaurantvoting.repository.RestaurantRepository;
+import com.example.restaurantvoting.to.RestaurantTo;
+import com.example.restaurantvoting.util.RestaurantUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -17,6 +19,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 
+import static com.example.restaurantvoting.util.RestaurantUtil.createNewFromTo;
+import static com.example.restaurantvoting.util.RestaurantUtil.updateFromTo;
 import static com.example.restaurantvoting.util.validation.ValidationUtil.assureIdConsistent;
 import static com.example.restaurantvoting.util.validation.ValidationUtil.checkNew;
 
@@ -55,9 +59,9 @@ public class RestaurantRestController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @CacheEvict(allEntries = true)
-    public ResponseEntity<Restaurant> createWithLocation(@Valid @RequestBody Restaurant restaurant) {
-        checkNew(restaurant);
-        Restaurant created = restaurantRepository.save(restaurant);
+    public ResponseEntity<Restaurant> createWithLocation(@Valid @RequestBody RestaurantTo restaurantTo) {
+        checkNew(restaurantTo);
+        Restaurant created = restaurantRepository.save(createNewFromTo(restaurantTo));
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -67,9 +71,10 @@ public class RestaurantRestController {
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(allEntries = true)
-    public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable int id) {
-        assureIdConsistent(restaurant, id);
-        restaurantRepository.save(restaurant);
+    public void update(@Valid @RequestBody RestaurantTo restaurantTo, @PathVariable int id) {
+        assureIdConsistent(createNewFromTo(restaurantTo), id);
+        Restaurant restaurant = restaurantRepository.getById(id);
+        restaurantRepository.save(updateFromTo(restaurant, restaurantTo));
     }
 
     @GetMapping("/by-description")
