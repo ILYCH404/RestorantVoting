@@ -1,5 +1,10 @@
 package com.example.restaurantvoting.web.user;
 
+import com.example.restaurantvoting.model.Role;
+import com.example.restaurantvoting.model.User;
+import com.example.restaurantvoting.repository.UserRepository;
+import com.example.restaurantvoting.web.AbstractControllerTest;
+import com.example.restaurantvoting.web.GlobalExceptionHandler;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -8,18 +13,13 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import com.example.restaurantvoting.model.Role;
-import com.example.restaurantvoting.model.User;
-import com.example.restaurantvoting.repository.UserRepository;
-import com.example.restaurantvoting.web.AbstractControllerTest;
-import com.example.restaurantvoting.web.GlobalExceptionHandler;
 
+import static com.example.restaurantvoting.web.user.UserTestData.*;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static com.example.restaurantvoting.web.user.UserTestData.*;
 
 class AdminUserControllerTest extends AbstractControllerTest {
 
@@ -34,7 +34,6 @@ class AdminUserControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.get(REST_URL + ADMIN_ID))
                 .andExpect(status().isOk())
                 .andDo(print())
-                // https://jira.spring.io/browse/SPR-14472
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(USER_MATCHER.contentJson(admin));
     }

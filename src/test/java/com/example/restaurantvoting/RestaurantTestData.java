@@ -2,7 +2,7 @@ package com.example.restaurantvoting;
 
 import com.example.restaurantvoting.model.Restaurant;
 
-import static com.example.restaurantvoting.MealTestData.*;
+import static com.example.restaurantvoting.MealTestData.mealsForRestaurant1;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class RestaurantTestData {
@@ -20,10 +20,10 @@ public class RestaurantTestData {
     public static final Restaurant restaurant1 = new Restaurant(RESTAURANT1_ID, "Клод-Моне", "Невский проспект");
     public static final Restaurant restaurant2 = new Restaurant(RESTAURANT1_ID + 1, "Зима", "Сенная");
     public static final Restaurant restaurant3 = new Restaurant(RESTAURANT1_ID + 2, "Чернигов", "Дыбенко");
-    public static final Restaurant restarauntWithMeals1 = new Restaurant(RESTAURANT1_ID, "Чернигов", "Дыбенко");
+    public static final Restaurant restaurantWithMeals1 = new Restaurant(RESTAURANT1_ID + 3, "Чернигов", "Дыбенко");
 
     static {
-        restarauntWithMeals1.setMeals(mealsForRestaurant1);
+        restaurantWithMeals1.setMeals(mealsForRestaurant1);
     }
 
 
@@ -32,6 +32,6 @@ public class RestaurantTestData {
     }
 
     public static Restaurant getUpdated() {
-        return new Restaurant(MEAL1_ID, "Обновленный ресторан", "Обновленный адрес");
+        return new Restaurant(RESTAURANT1_ID, "Обновленный ресторан", "Обновленный адрес");
     }
 }

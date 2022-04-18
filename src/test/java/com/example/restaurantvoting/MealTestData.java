@@ -8,7 +8,6 @@ public class MealTestData {
 
     public static final MatcherFactory.Matcher<Meal> MEAL_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(Meal.class);
 
-    public static final int NOT_FOUND = 10;
     public static final int MEAL1_ID = 1;
 
     public static final Meal meal1 = new Meal(MEAL1_ID, "Манная каша", 100);
@@ -19,8 +18,6 @@ public class MealTestData {
     public static final Meal meal6 = new Meal(MEAL1_ID + 5, "Селедка под шубой", 500);
     public static final Meal meal7 = new Meal(MEAL1_ID + 6, "Картошка", 500);
     public static final Meal meal8 = new Meal(MEAL1_ID + 7, "Блины", 600);
-
-    public static final List<Meal> meals = List.of(meal8, meal7, meal6, meal5, meal4, meal3, meal2, meal1);
 
     public static final List<Meal> mealsForRestaurant1 = List.of(meal3, meal2, meal1);
 

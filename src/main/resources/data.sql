@@ -4,9 +4,8 @@ VALUES ('Невский проспект', 'Клод-Моне'),
        ('Дыбенко', 'Чернигов');
 
 INSERT INTO USERS (name, email, password)
-VALUES ('User', 'user@yandex.com', '{noop}password'),
-       ('Admin', 'admin@gmail.com', '{noop}admin'),
-       ('Guest', 'guest@gmail.com', '{noop}admin');
+VALUES ('User', 'user@yandex.ru', '{noop}password'),
+       ('Admin', 'admin@gmail.com', '{noop}admin');
 
 INSERT INTO USER_ROLES (role, user_id)
 VALUES ('USER', 1),
