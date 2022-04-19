@@ -55,7 +55,7 @@ public class RestaurantRestController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(value = "restaurant", allEntries = true)
     public void delete(@PathVariable int id) {
-        restaurantRepository.delete(id);
+        restaurantRepository.deleteExisted(id);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

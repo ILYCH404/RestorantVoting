@@ -71,7 +71,7 @@ public class MealRestController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
-        mealRepository.delete(id);
+        mealRepository.deleteExisted(id);
     }
 
     @GetMapping("/createMenu/{restaurant_id}")
