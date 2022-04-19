@@ -38,6 +38,9 @@ public class ValidationUtil {
     }
 
     public static boolean checkTime() {
-        return LocalTime.now().isBefore(LocalTime.of(23, 0, 0));
+        if (!LocalTime.now().isBefore(LocalTime.of(23, 0, 0))) {
+            throw new IllegalRequestDataException("You can change your voice only until 11:00");
+        }
+        return true;
     }
 }

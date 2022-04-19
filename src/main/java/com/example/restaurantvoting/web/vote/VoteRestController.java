@@ -23,9 +23,9 @@ public class VoteRestController {
     static final String REST_URL = "/api/profile";
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    RestaurantRepository restaurantRepository;
+    private RestaurantRepository restaurantRepository;
     @Autowired
     private VoteRepository voteRepository;
 
@@ -43,8 +43,6 @@ public class VoteRestController {
             if (checkTime()) {
                 Restaurant restaurant = restaurantRepository.getById(restaurant_id);
                 voteRepository.setRestaurant(restaurant, user_id);
-            } else {
-                throw new Exception("It is already 11!");
             }
         } else {
             voteRepository.save(newVote);
