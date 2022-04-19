@@ -23,7 +23,7 @@ public class Restaurant extends BaseEntity {
     @Size(min = 2, max = 50)
     private String description;
 
-    @Column(name = "address")
+    @Column(name = "address", unique = true)
     @NotBlank
     private String address;
 
