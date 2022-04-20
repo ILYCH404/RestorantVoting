@@ -36,15 +36,14 @@ public class VoteRestController {
     @Transactional
     @CacheEvict(allEntries = true)
     public void vote(@PathVariable int user_id, @PathVariable int restaurant_id) {
-        Vote newVote = new Vote(userRepository.getById(user_id),
-                restaurantRepository.getById(restaurant_id));
-
+        Restaurant restaurant = restaurantRepository.getById(restaurant_id);
+        restaurant.id();
         if (voteRepository.existsByUserId(user_id)) {
             if (checkTime()) {
-                Restaurant restaurant = restaurantRepository.getById(restaurant_id);
                 voteRepository.setRestaurant(restaurant, user_id);
             }
         } else {
+            Vote newVote = new Vote(userRepository.getById(user_id), restaurant);
             voteRepository.save(newVote);
         }
     }
