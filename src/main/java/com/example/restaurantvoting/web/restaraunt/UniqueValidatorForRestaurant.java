@@ -1,7 +1,7 @@
 package com.example.restaurantvoting.web.restaraunt;
 
+import com.example.restaurantvoting.model.Restaurant;
 import com.example.restaurantvoting.repository.RestaurantRepository;
-import com.example.restaurantvoting.to.RestaurantTo;
 import com.example.restaurantvoting.web.GlobalExceptionHandler;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -17,12 +17,12 @@ public class UniqueValidatorForRestaurant implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return RestaurantTo.class.isAssignableFrom(clazz);
+        return Restaurant.class.isAssignableFrom(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-        RestaurantTo restaurantTo = (RestaurantTo) target;
+        Restaurant restaurantTo = (Restaurant) target;
 
         if (StringUtils.hasText(restaurantTo.getAddress()) || StringUtils.hasText(restaurantTo.getDescription())) {
             restaurantRepository.getByAddress(restaurantTo.getAddress())

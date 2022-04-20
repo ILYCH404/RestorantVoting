@@ -35,7 +35,6 @@ public class MealRestController {
 
     static final String REST_URL = "/api/admin/meals";
 
-    private final Random random = new Random();
 
     @Autowired
     protected MealRepository mealRepository;
@@ -72,23 +71,5 @@ public class MealRestController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {
         mealRepository.deleteExisted(id);
-    }
-
-    @GetMapping("/createMenu/{restaurant_id}")
-    @Transactional
-    public void createMenuForRestaurant(@PathVariable int restaurant_id) {
-        mealRepository.getAllByRestaurantId(restaurant_id).forEach(meal -> meal.setRestaurant(null));
-        Restaurant restaurant = restaurantRepository.getById(restaurant_id);
-
-        int meals_count = random.nextInt(3) + 2;
-        while (meals_count-- >= 1) {
-            int meals_id = Math.toIntExact(random.nextLong(mealRepository.count()) + 1);
-            Meal meal = mealRepository.getById(meals_id);
-            if (meal.getRestaurant() != null) {
-                meals_count++;
-                continue;
-            }
-            meal.setRestaurant(restaurant);
-        }
     }
 }

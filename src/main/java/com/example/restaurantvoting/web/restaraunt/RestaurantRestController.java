@@ -2,7 +2,6 @@ package com.example.restaurantvoting.web.restaraunt;
 
 import com.example.restaurantvoting.model.Restaurant;
 import com.example.restaurantvoting.repository.RestaurantRepository;
-import com.example.restaurantvoting.to.RestaurantTo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -20,8 +19,6 @@ import java.net.URI;
 import java.util.List;
 import java.util.Objects;
 
-import static com.example.restaurantvoting.util.RestaurantUtil.createNewFromTo;
-import static com.example.restaurantvoting.util.RestaurantUtil.updateFromTo;
 import static com.example.restaurantvoting.util.validation.ValidationUtil.assureIdConsistent;
 import static com.example.restaurantvoting.util.validation.ValidationUtil.checkNew;
 
@@ -54,23 +51,16 @@ public class RestaurantRestController {
         return ResponseEntity.of(Objects.requireNonNull(restaurantRepository.findById(id)));
     }
 
-    @GetMapping("/withMeals/{id}")
-    public ResponseEntity<Restaurant> getWithMeals(@PathVariable int id) {
-        return ResponseEntity.of(Objects.requireNonNull(restaurantRepository.getWithMeals(id)));
-    }
-
-    @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @CacheEvict(value = "restaurant", allEntries = true)
-    public void delete(@PathVariable int id) {
-        restaurantRepository.deleteExisted(id);
+    @GetMapping("/by-description")
+    public ResponseEntity<Restaurant> getByDescription(@RequestParam String description) {
+        return ResponseEntity.of(restaurantRepository.findByDescription(description));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @CacheEvict(allEntries = true)
-    public ResponseEntity<Restaurant> createWithLocation(@Valid @RequestBody RestaurantTo restaurantTo) {
-        checkNew(restaurantTo);
-        Restaurant created = restaurantRepository.save(createNewFromTo(restaurantTo));
+    public ResponseEntity<Restaurant> createWithLocation(@Valid @RequestBody Restaurant restaurant) {
+        checkNew(restaurant);
+        Restaurant created = restaurantRepository.save(restaurant);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -81,14 +71,15 @@ public class RestaurantRestController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(allEntries = true)
     @Transactional
-    public void update(@Valid @RequestBody RestaurantTo restaurantTo, @PathVariable int id) {
-        assureIdConsistent(createNewFromTo(restaurantTo), id);
-        Restaurant restaurant = restaurantRepository.getById(id);
-        restaurantRepository.save(updateFromTo(restaurant, restaurantTo));
+    public void update(@Valid @RequestBody Restaurant restaurant, @PathVariable int id) {
+        assureIdConsistent(restaurant, id);
+        restaurantRepository.save(restaurant);
     }
 
-    @GetMapping("/by-description")
-    public ResponseEntity<Restaurant> getByDescription(@RequestParam String description) {
-        return ResponseEntity.of(restaurantRepository.findByDescription(description));
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @CacheEvict(value = "restaurant", allEntries = true)
+    public void delete(@PathVariable int id) {
+        restaurantRepository.deleteExisted(id);
     }
 }

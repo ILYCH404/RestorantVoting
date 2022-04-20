@@ -6,5 +6,4 @@ import java.util.List;
 
 public interface MealRepository extends BaseRepository<Meal> {
 
-    List<Meal> getAllByRestaurantId(int id);
 }
