@@ -47,16 +47,6 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
-    void getWithMeals() throws Exception {
-        perform(MockMvcRequestBuilders.get(REST_URL + "withMeals/" + RESTAURANT1_ID))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RESTAURANT_WITH_MEALS_MATCHER.contentJson(restaurantWithMeals1));
-    }
-
-    @Test
-    @WithUserDetails(value = ADMIN_MAIL)
     void delete() throws Exception {
         perform(MockMvcRequestBuilders.delete(REST_URL + RESTAURANT1_ID))
                 .andDo(print())
@@ -84,7 +74,6 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
     @WithUserDetails(value = ADMIN_MAIL)
     void update() throws Exception {
         Restaurant updated = getUpdated();
-        updated.setMeals(null);
         perform(MockMvcRequestBuilders.put(REST_URL + RESTAURANT1_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated)))
