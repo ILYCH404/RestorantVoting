@@ -6,6 +6,7 @@ import com.example.restaurantvoting.model.Restaurant;
 import com.example.restaurantvoting.repository.MealRepository;
 import com.example.restaurantvoting.repository.MenuRepository;
 import com.example.restaurantvoting.repository.RestaurantRepository;
+import com.example.restaurantvoting.to.MealTo;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -15,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Random;
 
 @RestController
@@ -34,6 +36,10 @@ public class MenuRestController {
     @Autowired
     protected MenuRepository menuRepository;
 
+    @GetMapping("/{id}")
+    public List<MealTo> getMenu(@PathVariable int id) {
+        return mealRepository.getAllByMenu(menuRepository.getMenuByRestaurantId(id));
+    }
 
     @GetMapping("/createMenu/{restaurant_id}")
     @Transactional
