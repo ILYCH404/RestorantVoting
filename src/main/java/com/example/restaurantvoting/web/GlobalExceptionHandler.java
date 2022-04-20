@@ -29,6 +29,8 @@ import static org.springframework.boot.web.error.ErrorAttributeOptions.Include.M
 @Slf4j
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public static final String EXCEPTION_DUPLICATE_EMAIL = "User with this email already exists";
+    public static final String EXCEPTION_DUPLICATE_ADDRESS = "Restaurant with this address already exists";
+    public static final String EXCEPTION_DUPLICATE_DESCRIPTION = "Restaurant with this description already exists";
 
     private final ErrorAttributes errorAttributes;
 
@@ -49,13 +51,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(AppException.class)
     public ResponseEntity<?> appException(WebRequest request, AppException ex) {
-        log.error("ApplicationException: {}", ex.getMessage());
         return createResponseEntity(getDefaultBody(request, ex.getOptions(), null), ex.getStatus());
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<?> persistException(WebRequest request, EntityNotFoundException ex) {
-        log.error("EntityNotFoundException: {}", ex.getMessage());
         return createResponseEntity(getDefaultBody(request, ErrorAttributeOptions.of(MESSAGE), null), HttpStatus.UNPROCESSABLE_ENTITY);
     }
 

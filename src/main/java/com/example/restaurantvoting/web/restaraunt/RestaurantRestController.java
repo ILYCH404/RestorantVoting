@@ -3,7 +3,6 @@ package com.example.restaurantvoting.web.restaraunt;
 import com.example.restaurantvoting.model.Restaurant;
 import com.example.restaurantvoting.repository.RestaurantRepository;
 import com.example.restaurantvoting.to.RestaurantTo;
-import com.example.restaurantvoting.util.RestaurantUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -12,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -34,6 +34,14 @@ public class RestaurantRestController {
 
     @Autowired
     protected RestaurantRepository restaurantRepository;
+
+    @Autowired
+    private UniqueValidatorForRestaurant validatorForRestaurant;
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.addValidators(validatorForRestaurant);
+    }
 
     @GetMapping
     @Cacheable
