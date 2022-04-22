@@ -44,6 +44,12 @@ public class MenuRestController {
         return menuRepository.findById(id);
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable int id) {
+        menuRepository.deleteExisted(id);
+    }
+
     @GetMapping("/createMenu/{restaurant_id}")
     @Transactional
     @ResponseStatus(HttpStatus.NO_CONTENT)

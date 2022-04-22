@@ -1,10 +1,12 @@
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/c567df7d3f9f4ff3a4c7f185f59600b4)](https://www.codacy.com/gh/ILYCH404/RestorantVoting/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ILYCH404/RestorantVoting&amp;utm_campaign=Badge_Grade)
+
 Restaurant voting
 ===============================
 
 Build a voting system for deciding where to have lunch.
 
 2 types of users: admin and regular users
-Admin can input a restaurant and it's lunch menu of the day (2-5 items usually, just a dish name and price)
+Admin can input a restaurant, and it's lunch menu of the day (2-5 items usually, just a dish name and price)
 Menu changes each day (admins do the updates)
 Users can vote on which restaurant they want to have lunch at
 Only one vote counted per user
