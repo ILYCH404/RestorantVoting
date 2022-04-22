@@ -17,15 +17,14 @@ Each restaurant provides a new menu each day.
 
 -------------------------------------------------------------
 
-- Stack: [JDK 17](http://jdk.java.net/17/), Spring Boot 2.5,
-Lombok, H2, Swagger/OpenAPI 3.0, 
- Spring Data JPA
+- Stack: [JDK 17](http://jdk.java.net/17/), Spring Boot 2.5, Lombok, H2, Swagger/OpenAPI 3.0, Spring Data JPA
+
 - Run: `mvn spring-boot:run` in root directory
 
 -----------------------------------------------------
 
 [REST API documentation](http://localhost:8080/swagger-ui.html)  
-Креденшелы:
+Credentials:
 ```
 User:  user@yandex.com / password
 Admin: admin@gmail.com / admin
