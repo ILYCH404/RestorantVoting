@@ -1,7 +1,5 @@
-package com.example.restaurantvoting.web;
+package com.example.restaurantvoting;
 
-import com.example.restaurantvoting.MatcherFactory;
-import com.example.restaurantvoting.RestaurantTestData;
 import com.example.restaurantvoting.model.Menu;
 
 import java.util.HashSet;
@@ -13,8 +11,7 @@ public class MenuTestData {
 
     public static final Menu menu1 = new Menu(MENU1_ID, null);
 
-    static
-    {
+    static {
         menu1.setMenu(new HashSet<>());
     }
 

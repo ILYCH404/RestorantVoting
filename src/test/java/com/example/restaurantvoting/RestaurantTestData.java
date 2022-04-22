@@ -2,9 +2,6 @@ package com.example.restaurantvoting;
 
 import com.example.restaurantvoting.model.Restaurant;
 
-import static com.example.restaurantvoting.MealTestData.mealsForRestaurant1;
-import static org.assertj.core.api.Assertions.assertThat;
-
 public class RestaurantTestData {
     public static final MatcherFactory.Matcher<Restaurant> RESTAURANT_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(Restaurant.class);
 
