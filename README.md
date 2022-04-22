@@ -23,8 +23,24 @@ Each restaurant provides a new menu each day.
 
 -----------------------------------------------------
 
+#### Things I learned
+
+- Autowired in Spring Boot(DI)
+- Lombok annotation
+- Aspect-Oriented Programming(AOP)
+- Logging through aspects
+- Create your own annotation
+- application.yml
+- Custom validator for controller
+- Custom GlobalExceptionHandler using RestControllerAdvice
+- Testing Junit 5
+- SwaggerUI
+
+-----------------------------------------------------
+
 [REST API documentation](http://localhost:8080/swagger-ui.html)  
 Credentials:
+
 ```
 User:  user@yandex.com / password
 Admin: admin@gmail.com / admin
