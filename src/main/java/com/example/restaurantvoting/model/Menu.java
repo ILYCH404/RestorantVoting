@@ -3,6 +3,8 @@ package com.example.restaurantvoting.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -29,9 +31,10 @@ public class Menu extends BaseEntity {
             )
     private Set<Meal> menu;
 
-    @OneToOne()
+    @OneToOne
     @JoinColumn
     @JsonIgnore
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
     public Menu(Integer id, Restaurant restaurant) {

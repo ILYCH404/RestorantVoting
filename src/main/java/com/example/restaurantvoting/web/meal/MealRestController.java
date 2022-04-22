@@ -3,7 +3,6 @@ package com.example.restaurantvoting.web.meal;
 import com.example.restaurantvoting.model.Meal;
 import com.example.restaurantvoting.repository.MealRepository;
 import com.example.restaurantvoting.repository.RestaurantRepository;
-import com.example.restaurantvoting.to.MealTo;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -19,8 +18,6 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.Objects;
 
-import static com.example.restaurantvoting.util.MealUtil.createFromTo;
-import static com.example.restaurantvoting.util.MealUtil.updateFromTo;
 import static com.example.restaurantvoting.util.validation.ValidationUtil.assureIdConsistent;
 import static com.example.restaurantvoting.util.validation.ValidationUtil.checkNew;
 
@@ -46,9 +43,9 @@ public class MealRestController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @CacheEvict(allEntries = true)
-    public ResponseEntity<Meal> createWithLocation(@Valid @RequestBody MealTo mealTo) {
-        checkNew(mealTo);
-        Meal created = mealRepository.save(createFromTo(mealTo));
+    public ResponseEntity<Meal> createWithLocation(@Valid @RequestBody Meal meal) {
+        checkNew(meal);
+        Meal created = mealRepository.save(meal);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -59,10 +56,9 @@ public class MealRestController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(allEntries = true)
     @Transactional
-    public void update(@Valid @RequestBody MealTo mealTo, @PathVariable int id) {
-        assureIdConsistent(mealTo, id);
-        Meal meal = mealRepository.getById(id);
-        mealRepository.save(updateFromTo(meal, mealTo));
+    public void update(@Valid @RequestBody Meal meal, @PathVariable int id) {
+        assureIdConsistent(meal, id);
+        mealRepository.save(meal);
     }
 
     @DeleteMapping("/{id}")
