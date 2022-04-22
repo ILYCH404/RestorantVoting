@@ -3,7 +3,9 @@ package com.example.restaurantvoting.model;
 import lombok.*;
 import org.hibernate.validator.constraints.Range;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -23,10 +25,6 @@ public class Meal extends BaseEntity {
     @Column(name = "price", nullable = false)
     @Range(min = 30, max = 50000)
     private Integer price;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn()
-    private Menu menu;
 
     public Meal(String description, Integer price) {
         this(null, description, price);

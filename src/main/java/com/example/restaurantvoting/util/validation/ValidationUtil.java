@@ -6,6 +6,7 @@ import lombok.experimental.UtilityClass;
 import org.springframework.core.NestedExceptionUtils;
 import org.springframework.lang.NonNull;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 @UtilityClass
@@ -42,5 +43,11 @@ public class ValidationUtil {
             throw new IllegalRequestDataException("You can change your voice only until 23:00");
         }
         return true;
+    }
+
+    public static void checkTimeForUpdateMenu(LocalDate date) {
+        if (!date.isBefore(LocalDate.now())) {
+            throw new IllegalRequestDataException("The menu has been updated today.");
+        }
     }
 }

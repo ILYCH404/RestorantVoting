@@ -1,7 +1,6 @@
 package com.example.restaurantvoting.web.meal;
 
 import com.example.restaurantvoting.model.Meal;
-import com.example.restaurantvoting.model.Restaurant;
 import com.example.restaurantvoting.repository.MealRepository;
 import com.example.restaurantvoting.repository.RestaurantRepository;
 import com.example.restaurantvoting.to.MealTo;
@@ -19,7 +18,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.Objects;
-import java.util.Random;
 
 import static com.example.restaurantvoting.util.MealUtil.createFromTo;
 import static com.example.restaurantvoting.util.MealUtil.updateFromTo;

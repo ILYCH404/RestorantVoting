@@ -1,13 +1,12 @@
 package com.example.restaurantvoting.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.List;
+import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name = "menu")
@@ -17,17 +16,22 @@ import java.util.List;
 @ToString(callSuper = true)
 public class Menu extends BaseEntity {
 
-    @Column(name = "date_time", columnDefinition = "TIMESTAMP DEFAULT NOW()", updatable = false)
+    @Column(name = "date_time", columnDefinition = "DATE DEFAULT NOW()")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private LocalDateTime added = LocalDateTime.now();
+    private LocalDate added = LocalDate.now();
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "menu_id")
-    private List<Meal> menu;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable
+            (
+                    name = "menu_meal",
+                    joinColumns = @JoinColumn(name = "menu_id", nullable = false),
+                    inverseJoinColumns = @JoinColumn(name = "meal_id", nullable = false)
+            )
+    private Set<Meal> menu;
 
     @OneToOne()
     @JoinColumn
+    @JsonIgnore
     private Restaurant restaurant;
 
     public Menu(Integer id, Restaurant restaurant) {
