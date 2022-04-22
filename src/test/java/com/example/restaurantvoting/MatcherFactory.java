@@ -1,9 +1,9 @@
 package com.example.restaurantvoting;
 
+import com.example.restaurantvoting.util.JsonUtil;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
-import com.example.restaurantvoting.util.JsonUtil;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -46,6 +46,10 @@ public class MatcherFactory {
             this.iterableAssertion = iterableAssertion;
         }
 
+        private static String getContent(MvcResult result) throws UnsupportedEncodingException {
+            return result.getResponse().getContentAsString();
+        }
+
         public void assertMatch(T actual, T expected) {
             assertion.accept(actual, expected);
         }
@@ -74,10 +78,6 @@ public class MatcherFactory {
 
         public T readFromJson(ResultActions action) throws UnsupportedEncodingException {
             return JsonUtil.readValue(getContent(action.andReturn()), clazz);
-        }
-
-        private static String getContent(MvcResult result) throws UnsupportedEncodingException {
-            return result.getResponse().getContentAsString();
         }
     }
 }

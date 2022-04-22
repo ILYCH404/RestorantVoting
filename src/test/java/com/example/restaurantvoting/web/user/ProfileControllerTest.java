@@ -1,11 +1,5 @@
 package com.example.restaurantvoting.web.user;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithUserDetails;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.example.restaurantvoting.model.User;
 import com.example.restaurantvoting.repository.UserRepository;
 import com.example.restaurantvoting.to.UserTo;
@@ -13,13 +7,19 @@ import com.example.restaurantvoting.util.JsonUtil;
 import com.example.restaurantvoting.util.UserUtil;
 import com.example.restaurantvoting.web.AbstractControllerTest;
 import com.example.restaurantvoting.web.GlobalExceptionHandler;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static com.example.restaurantvoting.web.user.ProfileController.REST_URL;
+import static com.example.restaurantvoting.web.user.UserTestData.*;
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static com.example.restaurantvoting.web.user.ProfileController.REST_URL;
-import static com.example.restaurantvoting.web.user.UserTestData.*;
 
 class ProfileControllerTest extends AbstractControllerTest {
 
