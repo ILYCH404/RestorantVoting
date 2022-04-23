@@ -38,6 +38,15 @@ Each restaurant provides a new menu each day.
 
 -----------------------------------------------------
 
+#### How to improve the project
+
+- Add food categorization to form a structured menu
+- Or the formation of each section of the menu (For example: drinks, soups, desserts, etc.)
+- Add a unique menu item that is added in the menu creation request
+- Add vote count for each restaurant and the choice of the winner in it
+
+-----------------------------------------------------
+
 [REST API documentation](http://localhost:8080/swagger-ui.html)  
 Credentials:
 

@@ -1,6 +1,5 @@
-package com.example.restaurantvoting.web.user;
+package com.example.restaurantvoting;
 
-import com.example.restaurantvoting.MatcherFactory;
 import com.example.restaurantvoting.model.Role;
 import com.example.restaurantvoting.model.User;
 import com.example.restaurantvoting.util.JsonUtil;

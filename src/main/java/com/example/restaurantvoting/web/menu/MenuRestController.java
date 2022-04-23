@@ -15,16 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 import static com.example.restaurantvoting.util.validation.ValidationUtil.checkTimeForUpdateMenu;
 
 @RestController
 @RequestMapping(value = MenuRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-// TODO: cache only most requested data!
 @CacheConfig(cacheNames = "menu")
 @Api
 public class MenuRestController {
@@ -41,7 +37,7 @@ public class MenuRestController {
 
     @GetMapping("/{id}")
     public Optional<Menu> get(@PathVariable int id) {
-        return menuRepository.findById(id);
+        return Objects.requireNonNull(menuRepository.findById(id));
     }
 
     @DeleteMapping("/{id}")

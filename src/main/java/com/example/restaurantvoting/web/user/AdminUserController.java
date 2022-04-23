@@ -21,7 +21,6 @@ import static com.example.restaurantvoting.util.validation.ValidationUtil.checkN
 
 @RestController
 @RequestMapping(value = AdminUserController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
-// TODO: cache only most requested data!
 @CacheConfig(cacheNames = "users")
 public class AdminUserController extends AbstractUserController {
 

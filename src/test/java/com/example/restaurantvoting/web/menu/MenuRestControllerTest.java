@@ -9,7 +9,7 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static com.example.restaurantvoting.MenuTestData.*;
-import static com.example.restaurantvoting.web.user.UserTestData.ADMIN_MAIL;
+import static com.example.restaurantvoting.UserTestData.ADMIN_MAIL;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
