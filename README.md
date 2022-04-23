@@ -17,11 +17,10 @@ Each restaurant provides a new menu each day.
 
 -------------------------------------------------------------
 
-- Stack: [JDK 17](http://jdk.java.net/17/), Spring Boot 2.5, Lombok, H2, Swagger/OpenAPI 3.0, Spring Data JPA
+#### Stack
+[JDK 17](http://jdk.java.net/17/), Spring Boot 2.5, Lombok, H2, Swagger/OpenAPI 3.0, Spring Data JPA
 
-- Run: `mvn spring-boot:run` in root directory
-
------------------------------------------------------
+----------------------------------------------------
 
 #### Things I learned
 
@@ -30,9 +29,9 @@ Each restaurant provides a new menu each day.
 - Aspect-Oriented Programming(AOP)
 - Logging through aspects
 - Create your own annotation
-- application.yml
+- `application.yml`
 - Custom validator for controller
-- Custom GlobalExceptionHandler using RestControllerAdvice
+- Custom GlobalExceptionHandler using `@RestControllerAdvice`
 - Testing Junit 5
 - SwaggerUI
 
@@ -44,6 +43,11 @@ Each restaurant provides a new menu each day.
 - Or the formation of each section of the menu (For example: drinks, soups, desserts, etc.)
 - Add a unique menu item that is added in the menu creation request
 - Add vote count for each restaurant and the choice of the winner in it
+
+-----------------------------------------------------
+
+#### Run
+`mvn spring-boot:run` in root directory
 
 -----------------------------------------------------
 
