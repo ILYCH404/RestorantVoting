@@ -56,6 +56,7 @@ public class MenuRestController {
     @CacheEvict(allEntries = true)
     public void createMenuForRestaurant(@PathVariable int restaurant_id) {
         Set<Meal> meals = new HashSet<>();
+        List<Meal> random_meals = mealRepository.getMeal().stream().toList();
         Menu menu;
         if (menuRepository.existsMenuByRestaurantId(restaurant_id)) {
             menu = menuRepository.getMenuByRestaurantId(restaurant_id);
@@ -67,8 +68,7 @@ public class MenuRestController {
         }
         int meals_count = random.nextInt(4) + 2;
         while (meals_count-- >= 1) {
-            int meals_id = Math.toIntExact(random.nextLong(mealRepository.count()) + 1);
-            Meal meal = mealRepository.getById(meals_id);
+            Meal meal = random_meals.get(random.nextInt(random_meals.size()));
             if (meals.contains(meal)) {
                 meals_count++;
                 continue;
