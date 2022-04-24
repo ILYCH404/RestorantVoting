@@ -1,6 +1,8 @@
 package com.example.restaurantvoting.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
@@ -22,7 +24,7 @@ public class Menu extends BaseEntity {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDate added = LocalDate.now();
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable
             (
                     name = "menu_meal",
@@ -36,6 +38,16 @@ public class Menu extends BaseEntity {
     @JsonIgnore
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
+
+    @PrePersist
+    public void addPositions() {
+        menu.forEach(meal -> meal.getMenu().add(this));
+    }
+
+    @PreRemove
+    public void removePositions() {
+        menu.forEach(meal -> meal.getMenu().remove(this));
+    }
 
     public Menu(Integer id, Restaurant restaurant) {
         super(id);

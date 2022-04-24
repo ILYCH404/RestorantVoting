@@ -1,6 +1,7 @@
 package com.example.restaurantvoting.web.restaraunt;
 
 import com.example.restaurantvoting.model.Restaurant;
+import com.example.restaurantvoting.repository.MenuRepository;
 import com.example.restaurantvoting.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -31,6 +32,9 @@ public class RestaurantRestController {
 
     @Autowired
     protected RestaurantRepository restaurantRepository;
+
+    @Autowired
+    protected MenuRepository menuRepository;
 
     @Autowired
     private UniqueValidatorForRestaurant validatorForRestaurant;
@@ -80,6 +84,9 @@ public class RestaurantRestController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(value = "restaurant", allEntries = true)
     public void delete(@PathVariable int id) {
+        if (menuRepository.existsMenuByRestaurantId(id)) {
+            menuRepository.delete(menuRepository.getMenuByRestaurantId(id));
+        }
         restaurantRepository.deleteExisted(id);
     }
 }

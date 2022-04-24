@@ -37,12 +37,16 @@ public class MenuRestController {
 
     @GetMapping("/{id}")
     public Optional<Menu> get(@PathVariable int id) {
-        return Objects.requireNonNull(menuRepository.findById(id));
+        return Objects.requireNonNull(menuRepository.findMenuByRestaurantId(id));
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Transactional
     public void delete(@PathVariable int id) {
+        Menu menu = menuRepository.getById(id);
+        menu.getMenu().forEach(meal -> meal.setMenu(null));
+        menu.setRestaurant(null);
         menuRepository.deleteExisted(id);
     }
 

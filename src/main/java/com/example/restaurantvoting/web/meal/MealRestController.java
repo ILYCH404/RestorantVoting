@@ -62,7 +62,10 @@ public class MealRestController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Transactional
     public void delete(@PathVariable int id) {
-        mealRepository.deleteExisted(id);
+        Meal meal = mealRepository.getById(id);
+        meal.getMenu().forEach(menu -> menu.getMenu().remove(meal));
+        mealRepository.delete(meal);
     }
 }

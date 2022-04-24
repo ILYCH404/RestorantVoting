@@ -1,5 +1,6 @@
 package com.example.restaurantvoting.web.menu;
 
+import com.example.restaurantvoting.RestaurantTestData;
 import com.example.restaurantvoting.repository.MenuRepository;
 import com.example.restaurantvoting.web.AbstractControllerTest;
 import org.junit.jupiter.api.Test;
@@ -35,9 +36,9 @@ class MenuRestControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void delete() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL + MENU1_ID))
+        perform(MockMvcRequestBuilders.delete(REST_URL + RestaurantTestData.RESTAURANT1_ID))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        assertFalse(menuRepository.findById(MENU1_ID).isPresent());
+        assertFalse(menuRepository.findMenuByRestaurantId(RestaurantTestData.RESTAURANT1_ID).isPresent());
     }
 }

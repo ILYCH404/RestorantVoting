@@ -1,13 +1,15 @@
 package com.example.restaurantvoting.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.validator.constraints.Range;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "meals")
@@ -25,6 +27,10 @@ public class Meal extends BaseEntity {
     @Column(name = "price", nullable = false)
     @Range(min = 30, max = 50000)
     private Integer price;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<Menu> menu = new HashSet<>();
 
     public Meal(String description, Integer price) {
         this(null, description, price);

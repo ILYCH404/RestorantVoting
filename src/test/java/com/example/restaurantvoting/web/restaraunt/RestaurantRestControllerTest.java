@@ -48,11 +48,11 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void delete() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL + RESTAURANT1_ID))
+        perform(MockMvcRequestBuilders.delete(REST_URL + restaurant2.id()))
                 .andDo(print())
                 .andExpect(status().isNoContent());
 
-        assertFalse(restaurantRepository.findById(RESTAURANT1_ID).isPresent());
+        assertFalse(restaurantRepository.findById(restaurant2.id()).isPresent());
     }
 
     @Test
