@@ -41,7 +41,8 @@ logging:
     root: WARN
     com.example.restaurantvoting: DEBUG
     org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: DEBUG
-  file: log\app.log
+  file:
+    name: log\app.log
 
 server.servlet:
   encoding:
