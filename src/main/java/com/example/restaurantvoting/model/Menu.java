@@ -1,8 +1,6 @@
 package com.example.restaurantvoting.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
@@ -39,6 +37,15 @@ public class Menu extends BaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
+    public Menu(Integer id, Restaurant restaurant) {
+        super(id);
+        this.restaurant = restaurant;
+    }
+
+    public Menu(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
     @PrePersist
     public void addPositions() {
         menu.forEach(meal -> meal.getMenu().add(this));
@@ -47,14 +54,5 @@ public class Menu extends BaseEntity {
     @PreRemove
     public void removePositions() {
         menu.forEach(meal -> meal.getMenu().remove(this));
-    }
-
-    public Menu(Integer id, Restaurant restaurant) {
-        super(id);
-        this.restaurant = restaurant;
-    }
-
-    public Menu(Restaurant restaurant) {
-        this.restaurant = restaurant;
     }
 }

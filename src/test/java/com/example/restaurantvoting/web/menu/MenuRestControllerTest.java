@@ -3,7 +3,6 @@ package com.example.restaurantvoting.web.menu;
 import com.example.restaurantvoting.RestaurantTestData;
 import com.example.restaurantvoting.repository.MenuRepository;
 import com.example.restaurantvoting.web.AbstractControllerTest;
-import lombok.With;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

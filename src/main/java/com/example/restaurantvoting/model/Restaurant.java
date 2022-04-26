@@ -25,6 +25,10 @@ public class Restaurant extends BaseEntity {
     @NotBlank
     private String address;
 
+    public Restaurant(Restaurant restaurant) {
+        this(restaurant.id, restaurant.description, restaurant.getAddress());
+    }
+
     public Restaurant(String description, String address) {
         this.description = description;
         this.address = address;

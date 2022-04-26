@@ -13,7 +13,7 @@ import org.springframework.validation.Validator;
 @AllArgsConstructor
 public class UniqueValidatorForRestaurant implements Validator {
 
-    RestaurantRepository restaurantRepository;
+    private RestaurantRepository restaurantRepository;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -22,13 +22,13 @@ public class UniqueValidatorForRestaurant implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        Restaurant restaurantTo = (Restaurant) target;
+        Restaurant restaurant = (Restaurant) target;
 
-        if (StringUtils.hasText(restaurantTo.getAddress()) || StringUtils.hasText(restaurantTo.getDescription())) {
-            restaurantRepository.getByAddress(restaurantTo.getAddress())
+        if (StringUtils.hasText(restaurant.getAddress()) || StringUtils.hasText(restaurant.getDescription())) {
+            restaurantRepository.getByAddress(restaurant.getAddress())
                     .ifPresent(dbRest ->
                             errors.rejectValue("address", "", GlobalExceptionHandler.EXCEPTION_DUPLICATE_ADDRESS));
-            restaurantRepository.findByDescription(restaurantTo.getDescription())
+            restaurantRepository.findByDescription(restaurant.getDescription())
                     .ifPresent(dbRest ->
                             errors.rejectValue("description", "", GlobalExceptionHandler.EXCEPTION_DUPLICATE_DESCRIPTION));
         }

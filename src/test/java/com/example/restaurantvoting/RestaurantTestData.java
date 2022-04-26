@@ -1,6 +1,5 @@
 package com.example.restaurantvoting;
 
-import com.example.restaurantvoting.model.Meal;
 import com.example.restaurantvoting.model.Restaurant;
 
 import java.util.List;

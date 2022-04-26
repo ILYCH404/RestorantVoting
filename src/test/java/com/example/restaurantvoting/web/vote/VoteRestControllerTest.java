@@ -13,10 +13,11 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static com.example.restaurantvoting.RestaurantTestData.RESTAURANT1_ID;
-import static com.example.restaurantvoting.UserTestData.*;
+import static com.example.restaurantvoting.UserTestData.USER_ID;
+import static com.example.restaurantvoting.UserTestData.USER_MAIL;
 import static com.example.restaurantvoting.VoteTestData.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class VoteRestControllerTest extends AbstractControllerTest {
 
@@ -27,7 +28,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
     @Test
     @WithUserDetails(value = USER_MAIL)
     void vote() throws Exception {
-        perform(MockMvcRequestBuilders.post(REST_URL + USER_ID +"/votes/" + RESTAURANT1_ID))
+        perform(MockMvcRequestBuilders.post(REST_URL + USER_ID + "/votes/" + RESTAURANT1_ID))
                 .andDo(print())
                 .andExpect(status().isNoContent());
         VOTE_MATCHER.assertMatch((Vote) Hibernate.unproxy(voteRepository.getById(VOTE1_ID)), vote1);

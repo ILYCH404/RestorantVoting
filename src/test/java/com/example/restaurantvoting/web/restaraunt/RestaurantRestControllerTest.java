@@ -3,7 +3,6 @@ package com.example.restaurantvoting.web.restaraunt;
 
 import com.example.restaurantvoting.RestaurantTestData;
 import com.example.restaurantvoting.model.Restaurant;
-
 import com.example.restaurantvoting.repository.RestaurantRepository;
 import com.example.restaurantvoting.util.JsonUtil;
 import com.example.restaurantvoting.web.AbstractControllerTest;
@@ -19,8 +18,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.example.restaurantvoting.RestaurantTestData.*;
-import static com.example.restaurantvoting.UserTestData.*;
-import static com.example.restaurantvoting.UserTestData.jsonWithPassword;
+import static com.example.restaurantvoting.UserTestData.ADMIN_MAIL;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -184,7 +182,7 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
     @Transactional(propagation = Propagation.NEVER)
     @WithUserDetails(value = ADMIN_MAIL)
     void updateDuplicateAddress() throws Exception {
-        Restaurant expected = restaurant1;
+        Restaurant expected = new Restaurant(restaurant1);
         expected.setAddress("Невский проспект");
         perform(MockMvcRequestBuilders.put(REST_URL + RESTAURANT1_ID)
                 .contentType(MediaType.APPLICATION_JSON)

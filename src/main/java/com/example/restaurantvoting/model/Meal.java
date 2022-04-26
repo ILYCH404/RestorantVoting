@@ -1,7 +1,6 @@
 package com.example.restaurantvoting.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.validator.constraints.Range;
 
@@ -31,6 +30,10 @@ public class Meal extends BaseEntity {
     @ManyToMany(fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Menu> menu = new HashSet<>();
+
+    public Meal(Meal meal) {
+        this(meal.id, meal.description, meal.price);
+    }
 
     public Meal(String description, Integer price) {
         this(null, description, price);
