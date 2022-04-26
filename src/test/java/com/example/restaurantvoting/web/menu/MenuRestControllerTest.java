@@ -3,6 +3,7 @@ package com.example.restaurantvoting.web.menu;
 import com.example.restaurantvoting.RestaurantTestData;
 import com.example.restaurantvoting.repository.MenuRepository;
 import com.example.restaurantvoting.web.AbstractControllerTest;
+import lombok.With;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -40,5 +41,15 @@ class MenuRestControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isNoContent());
         assertFalse(menuRepository.findMenuByRestaurantId(RestaurantTestData.RESTAURANT1_ID).isPresent());
+    }
+
+    @Test
+    @WithUserDetails(value = ADMIN_MAIL)
+    void getAll() throws Exception {
+        perform(MockMvcRequestBuilders.get(REST_URL))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(MENU_MATCHER.contentJson(menuList));
     }
 }

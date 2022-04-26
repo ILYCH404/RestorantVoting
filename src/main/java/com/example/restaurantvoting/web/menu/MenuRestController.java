@@ -36,8 +36,15 @@ public class MenuRestController {
     protected MenuRepository menuRepository;
 
     @GetMapping("/{id}")
+    @CacheEvict(allEntries = true)
     public Optional<Menu> get(@PathVariable int id) {
         return Objects.requireNonNull(menuRepository.findMenuByRestaurantId(id));
+    }
+
+    @GetMapping()
+    @CacheEvict(allEntries = true)
+    public List<Menu> getAll() {
+        return menuRepository.findAll();
     }
 
     @DeleteMapping("/{id}")

@@ -31,7 +31,7 @@ public class VoteRestController {
 
 
     @SneakyThrows
-    @GetMapping("/{user_id}/votes/{restaurant_id}")
+    @PostMapping("/{user_id}/votes/{restaurant_id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
     @CacheEvict(allEntries = true)

@@ -16,6 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 import java.util.Objects;
 
 import static com.example.restaurantvoting.util.validation.ValidationUtil.assureIdConsistent;
@@ -38,6 +39,12 @@ public class MealRestController {
     @GetMapping("/{id}")
     public ResponseEntity<Meal> get(@PathVariable int id) {
         return ResponseEntity.of(Objects.requireNonNull(mealRepository.findById(id)));
+    }
+
+    @GetMapping()
+    @CacheEvict(allEntries = true)
+    public List<Meal> getAll() {
+        return mealRepository.findAll();
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

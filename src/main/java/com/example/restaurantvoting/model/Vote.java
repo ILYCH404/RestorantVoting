@@ -31,6 +31,13 @@ public class Vote extends BaseEntity {
     @Column(name = "time", updatable = false)
     private LocalTime DateTime = LocalTime.now();
 
+    public Vote(Integer id, User user, Restaurant restaurant, LocalTime dateTime) {
+        super(id);
+        this.user = user;
+        this.restaurant = restaurant;
+        DateTime = dateTime;
+    }
+
     public Vote(Integer id, User user, Restaurant restaurant) {
         super(id);
         this.user = user;

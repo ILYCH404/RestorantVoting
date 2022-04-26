@@ -19,7 +19,7 @@ import java.util.Set;
 @ToString(callSuper = true)
 public class Meal extends BaseEntity {
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description", nullable = false, unique = true)
     @NotBlank
     @Size(min = 2, max = 120)
     private String description;
