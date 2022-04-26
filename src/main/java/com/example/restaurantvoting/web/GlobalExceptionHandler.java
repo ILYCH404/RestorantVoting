@@ -31,6 +31,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public static final String EXCEPTION_DUPLICATE_EMAIL = "User with this email already exists";
     public static final String EXCEPTION_DUPLICATE_ADDRESS = "Restaurant with this address already exists";
     public static final String EXCEPTION_DUPLICATE_DESCRIPTION = "Restaurant with this description already exists";
+    public static final String MEAL_EXCEPTION_DUPLICATE_DESCRIPTION = "Meal with this description already exists";
 
     private final ErrorAttributes errorAttributes;
 

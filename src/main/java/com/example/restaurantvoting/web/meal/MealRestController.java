@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -35,6 +36,14 @@ public class MealRestController {
     protected MealRepository mealRepository;
     @Autowired
     protected RestaurantRepository restaurantRepository;
+
+    @Autowired
+    private UniqueMealValidator uniqueMealValidator;
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.addValidators(uniqueMealValidator);
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Meal> get(@PathVariable int id) {
