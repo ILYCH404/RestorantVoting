@@ -24,3 +24,6 @@ VALUES ('Манная каша', 100),
 
 INSERT INTO MENU(restaurant_id)
 VALUES (1);
+
+INSERT INTO VOTES(TIME, RESTAURANT_ID, USER_ID)
+VALUES (NOW(),  3, 1);

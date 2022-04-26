@@ -30,9 +30,16 @@ public class VoteRestController {
     private VoteRepository voteRepository;
 
 
+    @DeleteMapping("/{user_id}/votes")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable int user_id) {
+        checkTime();
+        voteRepository.delete(voteRepository.findByUserId(user_id));
+    }
+
     @SneakyThrows
     @PostMapping("/{user_id}/votes/{restaurant_id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.CREATED)
     @Transactional
     @CacheEvict(allEntries = true)
     public void vote(@PathVariable int user_id, @PathVariable int restaurant_id) {

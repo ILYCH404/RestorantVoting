@@ -16,6 +16,7 @@ import static com.example.restaurantvoting.RestaurantTestData.RESTAURANT1_ID;
 import static com.example.restaurantvoting.UserTestData.USER_ID;
 import static com.example.restaurantvoting.UserTestData.USER_MAIL;
 import static com.example.restaurantvoting.VoteTestData.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -30,7 +31,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
     void vote() throws Exception {
         perform(MockMvcRequestBuilders.post(REST_URL + USER_ID + "/votes/" + RESTAURANT1_ID))
                 .andDo(print())
-                .andExpect(status().isNoContent());
+                .andExpect(status().isCreated());
         VOTE_MATCHER.assertMatch((Vote) Hibernate.unproxy(voteRepository.getById(VOTE1_ID)), vote1);
     }
 
@@ -42,5 +43,15 @@ class VoteRestControllerTest extends AbstractControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated)))
                 .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    @WithUserDetails(value = USER_MAIL)
+    void delete() throws Exception {
+        perform(MockMvcRequestBuilders.delete(REST_URL + USER_ID + "/votes"))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+
+        assertFalse(voteRepository.findById(VOTE1_ID).isPresent());
     }
 }

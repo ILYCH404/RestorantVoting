@@ -14,4 +14,6 @@ public interface VoteRepository extends BaseRepository<Vote> {
     void setRestaurant(Restaurant restaurant_id, int user_id);
 
     boolean existsByUserId(int user_id);
+
+    Vote findByUserId(Integer user_id);
 }
