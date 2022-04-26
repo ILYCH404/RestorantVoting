@@ -50,4 +50,10 @@ public class ValidationUtil {
             throw new IllegalRequestDataException("The menu has been updated today.");
         }
     }
+
+    public static void checkMealCount(Integer count) {
+        if (count < 4) {
+            throw new IllegalRequestDataException("There must be at least 5 items in the food list to form a menu");
+        }
+    }
 }

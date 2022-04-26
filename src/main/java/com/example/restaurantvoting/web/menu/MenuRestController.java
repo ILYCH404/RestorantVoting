@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.*;
 
+import static com.example.restaurantvoting.util.validation.ValidationUtil.checkMealCount;
 import static com.example.restaurantvoting.util.validation.ValidationUtil.checkTimeForUpdateMenu;
 
 @RestController
@@ -63,7 +64,7 @@ public class MenuRestController {
     @CacheEvict(allEntries = true)
     public void createMenuForRestaurant(@PathVariable int restaurant_id) {
         Set<Meal> meals = new HashSet<>();
-        List<Meal> random_meals = mealRepository.getMeal().stream().toList();
+        List<Meal> random_meals = new ArrayList<>(mealRepository.getMeal().stream().toList());
         Menu menu;
         if (menuRepository.existsMenuByRestaurantId(restaurant_id)) {
             menu = menuRepository.getMenuByRestaurantId(restaurant_id);
@@ -75,9 +76,11 @@ public class MenuRestController {
         }
         int meals_count = random.nextInt(4) + 2;
         while (meals_count-- >= 1) {
+            checkMealCount(random_meals.size());
             Meal meal = random_meals.get(random.nextInt(random_meals.size()));
             if (meals.contains(meal)) {
                 meals_count++;
+                random_meals.remove(meal);
                 continue;
             }
             meals.add(meal);
