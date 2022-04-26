@@ -25,9 +25,6 @@ public class Vote extends BaseEntity {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Restaurant restaurant;
 
-    @Column(name = "vote", nullable = false)
-    private boolean vote = true;
-
     @Column(name = "time", updatable = false)
     private LocalTime DateTime = LocalTime.now();
 
