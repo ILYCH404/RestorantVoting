@@ -25,8 +25,8 @@ public class UniqueMealValidator implements Validator {
         Meal meal = (Meal) target;
 
         if (StringUtils.hasText(meal.getDescription())) {
-            mealRepository.findByDescription(meal.getDescription())
-                    .ifPresent(dbRest ->
+            mealRepository.findByDescriptionIgnoreCase(meal.getDescription().toLowerCase())
+                    .ifPresent(dbMeal ->
                             errors.rejectValue("description", "", GlobalExceptionHandler.MEAL_EXCEPTION_DUPLICATE_DESCRIPTION));
         }
     }

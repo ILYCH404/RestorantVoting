@@ -25,10 +25,10 @@ public class UniqueValidatorForRestaurant implements Validator {
         Restaurant restaurant = (Restaurant) target;
 
         if (StringUtils.hasText(restaurant.getAddress()) || StringUtils.hasText(restaurant.getDescription())) {
-            restaurantRepository.getByAddress(restaurant.getAddress())
+            restaurantRepository.findByAddressIgnoreCase(restaurant.getAddress().toLowerCase())
                     .ifPresent(dbRest ->
                             errors.rejectValue("address", "", GlobalExceptionHandler.EXCEPTION_DUPLICATE_ADDRESS));
-            restaurantRepository.findByDescription(restaurant.getDescription())
+            restaurantRepository.findByDescriptionIgnoreCase(restaurant.getDescription().toLowerCase())
                     .ifPresent(dbRest ->
                             errors.rejectValue("description", "", GlobalExceptionHandler.EXCEPTION_DUPLICATE_DESCRIPTION));
         }

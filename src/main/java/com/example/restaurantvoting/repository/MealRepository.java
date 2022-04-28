@@ -15,5 +15,5 @@ public interface MealRepository extends BaseRepository<Meal> {
     @Query("SELECT u FROM Meal u")
     Set<Meal> getMeal();
 
-    Optional<Meal> findByDescription(@NotBlank @Size(min = 2, max = 120) String description);
+    Optional<Meal> findByDescriptionIgnoreCase(@NotBlank @Size(min = 2, max = 120) String description);
 }

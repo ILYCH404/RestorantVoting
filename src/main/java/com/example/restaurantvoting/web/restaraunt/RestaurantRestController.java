@@ -57,7 +57,7 @@ public class RestaurantRestController {
 
     @GetMapping("/by-description")
     public ResponseEntity<Restaurant> getByDescription(@RequestParam String description) {
-        return ResponseEntity.of(restaurantRepository.findByDescription(description));
+        return ResponseEntity.of(restaurantRepository.findByDescriptionIgnoreCase(description));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
