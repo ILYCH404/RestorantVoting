@@ -168,8 +168,8 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
     @Transactional(propagation = Propagation.NEVER)
     @WithUserDetails(value = ADMIN_MAIL)
     void updateDuplicateDescription() throws Exception {
-        Restaurant expected = restaurant1;
-        expected.setDescription("Клод-Моне");
+        Restaurant expected = new Restaurant(restaurant1);
+        expected.setDescription("Зима");
         perform(MockMvcRequestBuilders.put(REST_URL + RESTAURANT1_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(expected)))
@@ -183,7 +183,7 @@ class RestaurantRestControllerTest extends AbstractControllerTest {
     @WithUserDetails(value = ADMIN_MAIL)
     void updateDuplicateAddress() throws Exception {
         Restaurant expected = new Restaurant(restaurant1);
-        expected.setAddress("Невский проспект");
+        expected.setAddress("Сенная");
         perform(MockMvcRequestBuilders.put(REST_URL + RESTAURANT1_ID)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(expected)))
