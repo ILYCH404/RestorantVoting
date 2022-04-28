@@ -8,9 +8,12 @@ import org.springframework.lang.NonNull;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Random;
 
 @UtilityClass
 public class ValidationUtil {
+
+    private static final Random RANDOM = new Random();
 
     public static void checkNew(HasId bean) {
         if (!bean.isNew()) {
@@ -55,5 +58,13 @@ public class ValidationUtil {
         if (count < 4) {
             throw new IllegalRequestDataException("There must be at least 5 items in the food list to form a menu");
         }
+    }
+
+    public int crateRandomNumberWithMin(int min, int max) {
+        return min + RANDOM.nextInt((max + 1) - min);
+    }
+
+    public int crateRandomNumberWithMax(int max) {
+        return RANDOM.nextInt(max);
     }
 }

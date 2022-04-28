@@ -9,6 +9,7 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,17 +18,15 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.*;
 
-import static com.example.restaurantvoting.util.validation.ValidationUtil.checkMealCount;
-import static com.example.restaurantvoting.util.validation.ValidationUtil.checkTimeForUpdateMenu;
+import static com.example.restaurantvoting.util.validation.ValidationUtil.*;
 
 @RestController
 @RequestMapping(value = MenuRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @CacheConfig(cacheNames = "menu")
 @Api
+@Scope("prototype")
 public class MenuRestController {
     static final String REST_URL = "/api/admin/menu";
-
-    private final Random random = new Random();
 
     @Autowired
     protected MealRepository mealRepository;
@@ -63,8 +62,9 @@ public class MenuRestController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @CacheEvict(allEntries = true)
     public void createMenuForRestaurant(@PathVariable int restaurant_id) {
-        Set<Meal> meals = new HashSet<>();
         List<Meal> random_meals = new ArrayList<>(mealRepository.getMeal().stream().toList());
+        checkMealCount(random_meals.size());
+        Set<Meal> meals = new HashSet<>();
         Menu menu;
         if (menuRepository.existsMenuByRestaurantId(restaurant_id)) {
             menu = menuRepository.getMenuByRestaurantId(restaurant_id);
@@ -74,16 +74,12 @@ public class MenuRestController {
         } else {
             menu = new Menu(restaurantRepository.getById(restaurant_id));
         }
-        int meals_count = random.nextInt(4) + 2;
-        while (meals_count-- >= 1) {
-            checkMealCount(random_meals.size());
-            Meal meal = random_meals.get(random.nextInt(random_meals.size()));
-            if (meals.contains(meal)) {
-                meals_count++;
-                random_meals.remove(meal);
-                continue;
-            }
+        int mealsCount = crateRandomNumberWithMin(2, 5);
+        while (mealsCount >= 1) {
+            Meal meal = random_meals.get(crateRandomNumberWithMax(random_meals.size()));
             meals.add(meal);
+            random_meals.remove(meal);
+            mealsCount--;
         }
         menu.setMenu(meals);
         menuRepository.save(menu);
